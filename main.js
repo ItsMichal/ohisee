@@ -92,4 +92,4 @@ app.get(['/ohIsee.json','/ohIsee'], function(req,res){
   res.setHeader('Content-Type', 'json');
   res.send(fs.readFileSync('ohIsee.json'));
 });
-app.listen(8000, () => console.log("STATUS - Webserver started listening on 8000...".green));
+app.listen((process.env.PORT || 8000), () => console.log("STATUS - Webserver started listening on 8000...".green));
