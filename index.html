@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <!-- Bootstrap Deps -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+
+  <title>OhISee</title>
+
+  <!-- 2 lazy 4 stylesheets -->
+  <style>
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <div class="row">
+      <div class="col align-middle text-center">
+        <h1 class="display-2 ">📝<img class="img-fluid" style="height:5.5rem;"  src="https://cdn.frankerfacez.com/emoticon/230001/4"> OhISee</h1>
+        <small class="text-muted">built by @itsMichal / Running on Trihex's chat for the last run of GDQ...enjoy?</small>
+        <hr>
+      </div>
+    </div>
+    <div id="content">
+    </div>
+  </div>
+
+  <script>
+    function getJSONFromFile(cb) {
+      var req = new XMLHttpRequest();
+      req.open('GET', 'ohIsee.json');
+      req.responeType = 'json';
+      req.send();
+      var tempjson = {};
+      req.onload = function() {
+        tempjson = req.response;
+        cb(tempjson);
+      };
+    }
+
+    function populate() {
+      //DOM
+      var contentdiv = document.getElementById("content");
+      contentdiv.innerHTML = "";
+      var emoteJSON = {};
+      getJSONFromFile(function(json) {
+        emoteJSON = JSON.parse(json);
+
+        var maincon = document.createElement('table');
+        maincon.setAttribute("class", "table");
+        var counts = [];
+        var tables = [];
+        var newJSON = {};
+        var OhISee = emoteJSON['OhISee'];
+        console.log(OhISee);
+        for (var i in OhISee) {
+          if (OhISee.hasOwnProperty(i)) {
+            console.log(OhISee[i])
+            if (!newJSON.hasOwnProperty(OhISee[i].times)) {
+
+
+              //create new table
+              var whole = document.createElement('div');
+              var table = document.createElement('table');
+              var title = document.createElement('h2');
+              table.setAttribute("class", "table");
+              var tablehead = document.createElement('thead');
+              var tableheadrow = document.createElement('tr');
+              var tableheaders = [document.createElement('th'), document.createElement('th')];
+
+              title.innerHTML = OhISee[i].times + " notes";
+              tableheaders[0].innerHTML = '📝<img class="img-fluid" style="height:1rem;"  src="https://cdn.frankerfacez.com/emoticon/230001/4">';
+              tableheaders[1].innerHTML = "Notetakers";
+
+
+              tableheadrow.appendChild(tableheaders[0]);
+              tableheadrow.appendChild(tableheaders[1]);
+              tablehead.appendChild(tableheadrow);
+              table.appendChild(tablehead);
+
+              whole.appendChild(title);
+              whole.appendChild(table);
+
+              newJSON[OhISee[i].times] = whole;
+              console.log(tables[tables.length])
+            }
+
+            //populate a new row
+            var whole = newJSON[OhISee[i].times];
+            var table = whole.children[1];
+            var row = table.insertRow(-1);
+            var cell1 = row.insertCell(0);
+            var cell2 = row.insertCell(1);
+            cell1.innerHTML = (OhISee[i].text != "") ? OhISee[i].text : '<img class="img-fluid" style="width:100%"; src="https://cdn.frankerfacez.com/emoticon/230001/4">📝</img>';
+            console.log(OhISee[i].users)
+            var userlist = "<small>";
+            for(var j = 0; j < OhISee[i].users.length; j++){
+              userlist+=OhISee[i].users[j];
+              if(j != OhISee[i].users.length-1){
+                userlist += ', ';
+              }
+            }
+            userlist += "</small>";
+            cell2.innerHTML = userlist;
+
+          }
+        }
+
+        var jsarray = Object.keys(newJSON);
+        jsarray= jsarray.sort(function(a,b){return parseInt(b)-parseInt(a)});
+        console.log(jsarray);
+        for(var j = 0; j < jsarray.length; j++){
+          console.log(j);
+          maincon.appendChild(newJSON[jsarray[j]]);
+          maincon.appendChild(document.createElement('hr'));
+        }
+        contentdiv.appendChild(maincon);
+
+      });
+    }
+
+    populate();
+  </script>
+</body>
+
+</html>
