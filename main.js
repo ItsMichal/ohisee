@@ -61,6 +61,10 @@ twitch.on('message', chatter => {
         onTimeout = true;
         setTimeout(timeoutReset, timeout);
       }
+    }else{
+      twitch.say("/w @itsMichal 📝 OhISee hmm, I've written that down @" + chatter.display_name +"...check out my 📝:");
+      console.log("STATUS - WHISPERED INFO".purple);
+      msgss++;
     }
 
     fs.writeFile('ohIsee.json', JSON.stringify(emoteLog), 'utf8', err => {
