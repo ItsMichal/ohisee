@@ -52,6 +52,9 @@ twitch.on('message', chatter => {
     if(!onTimeout){
       if(chatter.display_name != "OhISeeBOT"){
         twitch.say("📝 OhISee hmm, I've written that down @" + chatter.display_name +"...");
+        if(!emoteLog.whispers.includes(chatter.display_name)){
+          twitch.say("/w @"+chatter.display_name+" OhISee 📝 check out my 📝 at https://ohisee.herokuapp.com/ ...this is a test, so please be gentle. You won't get any more whispers from me (hopefully!)");
+        }
 
         // twitch.say(("📝 OhISee @" + chatter.display_name), err => {
         //   console.log(("ERROR - TWITCH MSG SEND ERROR - " + err.message).red);
@@ -62,7 +65,10 @@ twitch.on('message', chatter => {
         setTimeout(timeoutReset, timeout);
       }
     }else{
-      twitch.say("/w @itsMichal 📝 OhISee hmm, I've written that down @" + chatter.display_name +"...check out my 📝:");
+      if(!emoteLog.whispers.includes(chatter.display_name)){
+        twitch.say("/w @"+chatter.display_name+" OhISee 📝 hmm, I've written that down " + chatter.display_name +", so check out my 📝 at https://ohisee.herokuapp.com/ ...this is a test, so please be gentle. You won't get any more whispers from me (hopefully!)");
+      }
+      //twitch.say("/w @"+chatter.display_name+" 📝 OhISee hmm, I've written that down @" + chatter.display_name +"...check out my 📝: https://ohisee.herokuapp.com/");
       console.log("STATUS - WHISPERED INFO".purple);
       msgss++;
     }
