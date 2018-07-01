@@ -34,7 +34,9 @@ setTimeout(onlineMessage, 5000);
 
 function statusUpdate(){
   var lines = Object.keys(emoteLog.OhISee).length;
-  twitch.say(("📝 OhISee I have taken " + lines + " lines of notes from you guys! That's "+Math.ceil(lines/31)+" pages! OhISee My notes: https://ohisee.herokuapp.com/ 📝 OhISee"));
+  twitch.say(("📝 OhISee I have taken " + lines + " lines of notes from you guys! That's "+Math.ceil(lines/31)+" pages! OhISee My notes: https://ohisee.herokuapp.com/ 📝 OhISee"), err => {
+    console.log(err);
+  });
 }
 
 function onlineMessage(){
