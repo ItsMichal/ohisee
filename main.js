@@ -13,7 +13,7 @@ var twitch = new TwitchBot({
 
 var emoteLog = JSON.parse(fs.readFileSync('ohIsee.json'));
 
-var timeout = 10000;
+var timeout = 30000;
 
 var onTimeout = false;
 
@@ -54,12 +54,17 @@ twitch.on('message', chatter => {
         twitch.say("📝 OhISee hmm, I've written that down @" + chatter.display_name +"...");
         if(!emoteLog.whispers.includes(chatter.display_name)){
           twitch.say("/w @"+chatter.display_name+" OhISee 📝 check out my 📝 at https://ohisee.herokuapp.com/ ...this is a test, so please be gentle. You won't get any more whispers from me (hopefully!)");
+          emoteLog.whispers.push(chatter.display_name);
+        }else{
+          twitch.say("/w @itsMichal I can't message "+chatter.display_name+" anymore PepeHands");
+          console.log("STATUS - COULD NOT WHISPER, ON LIST".red);
         }
+
 
         // twitch.say(("📝 OhISee @" + chatter.display_name), err => {
         //   console.log(("ERROR - TWITCH MSG SEND ERROR - " + err.message).red);
         // });
-        console.log("STATUS - REPLIED, ON TIMEOUT".yellow);
+        console.log("STATUS - REPLIED, NOW ON TIMEOUT".yellow);
         msgss++;
         onTimeout = true;
         setTimeout(timeoutReset, timeout);
@@ -67,9 +72,14 @@ twitch.on('message', chatter => {
     }else{
       if(!emoteLog.whispers.includes(chatter.display_name)){
         twitch.say("/w @"+chatter.display_name+" OhISee 📝 hmm, I've written that down " + chatter.display_name +", so check out my 📝 at https://ohisee.herokuapp.com/ ...this is a test, so please be gentle. You won't get any more whispers from me (hopefully!)");
+        emoteLog.whispers.push(chatter.display_name);
+        console.log("STATUS - ON TIMEOUT, WHISPERED INFO".purple);
+      }else{
+        twitch.say("/w @itsMichal I can't message "+chatter.display_name+" anymore PepeHands");
+        console.log("STATUS - COULD NOT WHISPER, ON LIST".red);
       }
       //twitch.say("/w @"+chatter.display_name+" 📝 OhISee hmm, I've written that down @" + chatter.display_name +"...check out my 📝: https://ohisee.herokuapp.com/");
-      console.log("STATUS - WHISPERED INFO".purple);
+
       msgss++;
     }
 
