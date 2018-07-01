@@ -47,7 +47,7 @@ setInterval(statusUpdate, 300000);
 twitch.on('message', chatter => {
   //if(chatter.display_name == "itsMichal" && false);
   //console.log(chatter);
-  if(chatter.message.split(' ')[0] === "!RandomNote"){
+  if(chatter.message.split(' ')[0] === "!RandomNote" && chatter.message.indexOf("ISee") == -1 && chatter.display_name != "OhISeeBOT"){
     var randumbkeyspot = Math.floor(Math.random()*(Object.keys(emoteLog.OhISee).length));
     var randumb = emoteLog.OhISee[Object.keys(emoteLog.OhISee)[randumbkeyspot]];
 
