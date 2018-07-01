@@ -2,6 +2,7 @@ var TwitchBot = require("twitch-bot");
 var fs = require('fs');
 var colors = require('colors');
 var express = require('express');
+var sanitizeHtml = require('sanitize-html');
 //var socket = require('socket-io')(express);
 
 //Twitch Section
@@ -27,9 +28,26 @@ twitch.join('trihex');
 
 console.log("STATUS - OhISee Bot Started...".green);
 
+setTimeout(onlineMessage, 5000);
+
+function statusUpdate(){
+  var lines = Object.keys(emoteLog.OhISee).length;
+  twitch.say(("📝 OhISee I have taken " + lines + " lines of notes from you guys! That's "+Math.ceil(lines/31)+" pages! OhISee My notes: https://ohisee.herokuapp.com/ 📝 OhISee"));
+}
+
+function onlineMessage(){
+  twitch.say(("📝 OhISee 💤  ...woops I must have dozed off! 📝 OhISee ☝️ I'm awake and ready now, don't worry!"));
+}
+
+setTimeout(statusUpdate, 10000);
+setInterval(statusUpdate, 300000);
+
 twitch.on('message', chatter => {
+  //if(chatter.display_name == "itsMichal" && false);
+  //console.log(chatter);
+
   msgsp++;
-  if(chatter.message.split(' ')[0] === "📝" && chatter.message.split(' ')[1] === "OhISee"){
+  if(chatter.message.split(' ')[0] === "📝" && chatter.message.split(' ')[1].indexOf("ISee") > -1){
     console.log(("INFO - MSG - " + chatter.display_name + ": " + chatter.message).gray);
     //console.log("CONTAINS OHISEE".rainbow);
 
@@ -38,6 +56,7 @@ twitch.on('message', chatter => {
     for(var i = 2; i < chatter.message.split(' ').length; i++){
       fullmsg += chatter.message.split(' ')[i] + ' ';
     }
+    fullmsg = sanitizeHtml(fullmsg,{allowedTags:['']});
     console.log(("INFO - PARSED MSG - "+fullmsg).grey);
 
     if(!emoteLog.OhISee.hasOwnProperty(fullmsg.toLowerCase())){
@@ -51,7 +70,7 @@ twitch.on('message', chatter => {
 
     if(!onTimeout){
       if(chatter.display_name != "OhISeeBOT"){
-        twitch.say("📝 OhISee hmm, I've written that down @" + chatter.display_name +"...");
+        twitch.say("📝 OhISee hmm okay, I've written that down in my 📝, @" + chatter.display_name +"...very interesting!");
         if(!emoteLog.whispers.includes(chatter.display_name)){
           twitch.say("/w @"+chatter.display_name+" OhISee 📝 check out my 📝 at https://ohisee.herokuapp.com/ ...this is a test, so please be gentle. You won't get any more whispers from me (hopefully!)");
           emoteLog.whispers.push(chatter.display_name);
@@ -71,7 +90,7 @@ twitch.on('message', chatter => {
       }
     }else{
       if(!emoteLog.whispers.includes(chatter.display_name)){
-        twitch.say("/w @"+chatter.display_name+" OhISee 📝 hmm, I've written that down " + chatter.display_name +", so check out my 📝 at https://ohisee.herokuapp.com/ ...this is a test, so please be gentle. You won't get any more whispers from me (hopefully!)");
+        twitch.say("/w @"+chatter.display_name+" OhISee 📝 hmm okay, I've written that down " + chatter.display_name +", so check out my 📝 at https://ohisee.herokuapp.com/ ...this is a test, so please be gentle. You won't get any more whispers from me (hopefully!)");
         emoteLog.whispers.push(chatter.display_name);
         console.log("STATUS - ON TIMEOUT, WHISPERED INFO".purple);
       }else{
