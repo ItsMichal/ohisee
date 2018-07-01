@@ -14,7 +14,13 @@ var twitch = new TwitchBot({
   channels: ['trihex']
 });
 
-var emoteLog = JSON.parse(fs.readFileSync('ohIsee.json'));
+try{
+  fs.accessSync('ohIsee.json');
+} catch (e){
+
+}
+
+var emoteLog = JSON.parse(fs.readFileSync('ohIsee.json', { flag: 'a+' }));
 
 var timeout = 30000;
 
