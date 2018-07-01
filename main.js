@@ -22,8 +22,8 @@ try{
 
 var emoteLog = {"OhISee":{},"whispers":[]};
 try{
-  emoteLog= JSON.parse(fs.readFileSync('ohIsee.json', { flag: 'a+' }));
-  emoteLog.whispers.includes(chatter.display_name);
+  emoteLog = JSON.parse(fs.readFileSync('ohIsee.json'));
+  //emoteLog.whispers.includes(chatter.display_name);
 } catch (e) {
   console.log(("STATUS - CREATING JSON FILE"));
 }
@@ -31,6 +31,7 @@ try{
 var timeout = 30000;
 
 var onTimeout = false;
+var onTimeout2 = false;
 
 var msgsp = 0, msgss = 0;
 
@@ -61,11 +62,13 @@ setInterval(statusUpdate, 300000);
 twitch.on('message', chatter => {
   //if(chatter.display_name == "itsMichal" && false);
   //console.log(chatter);
-  if(chatter.message === "!RandomNote" && chatter.display_name != "OhISeeBOT"){
+  if(chatter.message === "!RandomNote" && chatter.display_name != "OhISeeBOT" && !onTimeout2){
     var randumbkeyspot = Math.floor(Math.random()*(Object.keys(emoteLog.OhISee).length));
     var randumb = emoteLog.OhISee[Object.keys(emoteLog.OhISee)[randumbkeyspot]];
 
     twitch.say(("📝 OhISee ☝️ Okay! Here's a note from " + randumb.users[0] + ": " + filter.clean(randumb.text)));
+    onTimeout2 = true;
+    setTimeout(timeoutReset2, timeout);
   }
 
   msgsp++;
@@ -136,6 +139,11 @@ twitch.on('message', chatter => {
 function timeoutReset(){
   onTimeout = false;
   console.log("STATUS - REPLY READY".green);
+  console.log(("INFO - " + msgsp + " messages processed, and "+ msgss + " messages sent.").gray);
+}
+function timeoutReset2(){
+  onTimeout2 = false;
+  console.log("STATUS - RANDOM MESSAGE READY".green);
   console.log(("INFO - " + msgsp + " messages processed, and "+ msgss + " messages sent.").gray);
 }
 
