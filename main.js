@@ -11,7 +11,7 @@ filter.removeWords("shit", "hell", "heck", "damn");
 var twitch = new TwitchBot({
   username: 'OhISeeBOT',
   oauth: '***REMOVED***',
-  channels: ['itsMichal']
+  channels: ['trihex']
 });
 
 var emoteLog = JSON.parse(fs.readFileSync('ohIsee.json'));
