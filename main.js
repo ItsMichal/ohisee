@@ -20,9 +20,10 @@ try{
 
 }
 
-var emoteLog = {"OhISee":{},"whispers":{}};
+var emoteLog = {"OhISee":{},"whispers":[]};
 try{
   emoteLog= JSON.parse(fs.readFileSync('ohIsee.json', { flag: 'a+' }));
+  emoteLog.whispers.includes(chatter.display_name);
 } catch (e) {
   console.log(("STATUS - CREATING JSON FILE"));
 }
