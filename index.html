@@ -22,7 +22,9 @@
     <div class="row">
       <div class="col align-middle text-center">
         <h1 class="display-2 ">📝<img class="img-fluid" style="height:5.5rem;"  src="https://cdn.frankerfacez.com/emoticon/230001/4"> OhISee</h1>
-        <small class="text-muted">built by @itsMichal / Running on Trihex's chat for the last run of GDQ...enjoy?</small>
+        <small class="text-muted">built by @itsMichal / Running on Trihex's chat for the last run of GDQ...enjoy?</small><br><br>
+        <h2 class="display-4" style="font-size:2rem;"><b>Random Note: </b><i id="rand"></i></h2><br>
+        <h2 class="display-4" style="font-size:2rem;"><b>Latest Note: </b><i id="latest"></i></h2>
         <hr>
       </div>
     </div>
@@ -120,6 +122,14 @@
           maincon.appendChild(document.createElement('hr'));
         }
         contentdiv.appendChild(maincon);
+
+        var randumbkeyspot = Math.floor(Math.random()*(Object.keys(OhISee).length));
+        var randumb = OhISee[Object.keys(OhISee)[randumbkeyspot]];
+        document.getElementById("rand").innerHTML = randumb.users[0] + ": " + (randumb.text);
+
+        var latest =  OhISee[Object.keys(OhISee)[Object.keys(OhISee).length-1]];
+        document.getElementById("latest").innerHTML = latest.users[0] + ": " + (latest.text);
+
 
       });
     }

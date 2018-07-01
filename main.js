@@ -3,13 +3,15 @@ var fs = require('fs');
 var colors = require('colors');
 var express = require('express');
 var sanitizeHtml = require('sanitize-html');
+var Filter = require('bad-words'), filter = new Filter({placeHolder: 'D: '});
+filter.removeWords("shit", "hell", "heck", "damn");
 //var socket = require('socket-io')(express);
 
 //Twitch Section
 var twitch = new TwitchBot({
   username: 'OhISeeBOT',
   oauth: '***REMOVED***',
-  channels: ['trihex']
+  channels: ['itsMichal']
 });
 
 var emoteLog = JSON.parse(fs.readFileSync('ohIsee.json'));
@@ -45,6 +47,12 @@ setInterval(statusUpdate, 300000);
 twitch.on('message', chatter => {
   //if(chatter.display_name == "itsMichal" && false);
   //console.log(chatter);
+  if(chatter.message.split(' ')[0] === "!RandomNote"){
+    var randumbkeyspot = Math.floor(Math.random()*(Object.keys(emoteLog.OhISee).length));
+    var randumb = emoteLog.OhISee[Object.keys(emoteLog.OhISee)[randumbkeyspot]];
+
+    twitch.say(("📝 OhISee ☝️ Okay! Here's a note from " + randumb.users[0] + ": " + filter.clean(randumb.text)));
+  }
 
   msgsp++;
   if(chatter.message.split(' ')[0] === "📝" && chatter.message.split(' ')[1].indexOf("ISee") > -1){
@@ -70,7 +78,7 @@ twitch.on('message', chatter => {
 
     if(!onTimeout){
       if(chatter.display_name != "OhISeeBOT"){
-        twitch.say("📝 OhISee hmm okay, I've written that down in my 📝, @" + chatter.display_name +"...very interesting!");
+        twitch.say("📝 OhISee hmm okay, I've written that down in my notes, @" + chatter.display_name +"...cool!");
         if(!emoteLog.whispers.includes(chatter.display_name)){
           twitch.say("/w @"+chatter.display_name+" OhISee 📝 check out my 📝 at https://ohisee.herokuapp.com/ ...this is a test, so please be gentle. You won't get any more whispers from me (hopefully!)");
           emoteLog.whispers.push(chatter.display_name);
