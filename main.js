@@ -20,7 +20,12 @@ try{
 
 }
 
-var emoteLog = JSON.parse(fs.readFileSync('ohIsee.json', { flag: 'a+' }));
+var emoteLog = {"OhISee":{},"whispers":{}};
+try{
+  emoteLog= JSON.parse(fs.readFileSync('ohIsee.json', { flag: 'a+' }));
+} catch (e) {
+  console.log(("STATUS - CREATING JSON FILE"));
+}
 
 var timeout = 30000;
 
