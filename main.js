@@ -65,8 +65,11 @@ twitch.on('message', chatter => {
   if(chatter.message === "!RandomNote" && chatter.display_name != "OhISeeBOT" && !onTimeout2){
     var randumbkeyspot = Math.floor(Math.random()*(Object.keys(emoteLog.OhISee).length));
     var randumb = emoteLog.OhISee[Object.keys(emoteLog.OhISee)[randumbkeyspot]];
-
-    twitch.say(("📝 OhISee ☝️ Okay! Here's a note from " + randumb.users[0] + ": " + filter.clean(randumb.text)));
+    try{
+      twitch.say(("📝 OhISee ☝️ Okay! Here's a note from " + randumb.users[0] + ": " + filter.clean(randumb.text)));
+    }catch (e){
+      console.log(e);
+    }
     onTimeout2 = true;
     setTimeout(timeoutReset2, timeout);
   }
