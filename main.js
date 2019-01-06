@@ -10,8 +10,8 @@ filter.removeWords("shit", "hell", "heck", "damn");
 //Twitch Section
 var twitch = new TwitchBot({
   username: 'OhISeeBOT',
-  oauth: '',
-  channels: ['OhISeeBOT']
+  oauth: '***REMOVED***',
+  channels: ['trihex']
 });
 
 try{
@@ -53,7 +53,7 @@ function statusUpdate(){
 }
 
 function onlineMessage(){
-  twitch.say(("📝 OhISee 💤  ...woops I must have dozed off! 📝 OhISee ☝️ I'm awake and ready now, don't worry!"));
+  twitch.say(("📝 OhISee I'm still in testing! Be nice! Now taking your notes...use '📝 OhISee' to take a note!"));
 }
 
 setTimeout(statusUpdate, 10000);
