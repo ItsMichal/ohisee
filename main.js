@@ -28,7 +28,7 @@ try{
   console.log(("STATUS - CREATING JSON FILE"));
 }
 
-var timeout = 30000;
+var timeout = 60000;
 
 var onTimeout = false;
 var onTimeout2 = false;
