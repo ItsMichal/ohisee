@@ -75,7 +75,7 @@ twitch.on('message', chatter => {
   }
 
   msgsp++;
-  if(chatter.message.split(' ')[0] === "📝" && chatter.message.split(' ')[1].indexOf("ISee") > -1){
+  if(chatter.message.split(' ').length > 1 && chatter.message.split(' ')[0] === "📝"  && chatter.message.split(' ')[1].indexOf("ISee") > -1){
     console.log(("INFO - MSG - " + chatter.display_name + ": " + chatter.message).gray);
     //console.log("CONTAINS OHISEE".rainbow);
 
