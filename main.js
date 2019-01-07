@@ -44,8 +44,8 @@ try{
   console.log(("STATUS - CREATING JSON FILE"));
 }
 
-var timeout = 60000;
-var timeout2 = 30000;
+var timeout = 120000;
+var timeout2 = 5000;
 
 
 var onTimeout = false;
