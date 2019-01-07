@@ -44,7 +44,7 @@ try{
   console.log(("STATUS - CREATING JSON FILE"));
 }
 
-var timeout = 120000;
+var timeout = 480000;
 var timeout2 = 5000;
 
 
@@ -74,7 +74,7 @@ function onlineMessage(){
 }
 
 //setTimeout(statusUpdate, 10000);
-setInterval(statusUpdate, 300000);
+setInterval(statusUpdate, 3000000);
 
 twitch.on('message', chatter => {
   //if(chatter.display_name == "itsMichal" && false);
