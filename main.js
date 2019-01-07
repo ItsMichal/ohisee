@@ -2,6 +2,7 @@ var TwitchBot = require("twitch-bot");
 var fs = require('fs');
 var colors = require('colors');
 var express = require('express');
+var request = require('request');
 var sanitizeHtml = require('sanitize-html');
 var Filter = require('bad-words'), filter = new Filter({placeHolder: 'D: '});
 filter.removeWords("shit", "hell", "heck", "damn");
@@ -11,24 +12,41 @@ filter.removeWords("shit", "hell", "heck", "damn");
 var twitch = new TwitchBot({
   username: 'OhISeeBOT',
   oauth: '***REMOVED***',
-  channels: ['trihex']
+  channels: ['trihex','ohiseebot']
 });
 
-try{
-  fs.accessSync('ohIsee.json');
-} catch (e){
-
-}
+// try{
+//   fs.accessSync('ohIsee.json');
+// } catch (e){
+//
+// }
 
 var emoteLog = {"OhISee":{},"whispers":[]};
 try{
-  emoteLog = JSON.parse(fs.readFileSync('ohIsee.json'));
+  //emoteLog = JSON.parse(fs.readFileSync('ohIsee.json'));
+  request.get("https://api.myjson.com/bins/9p6hk", function(err, resp, body){
+    if(err)
+      console.log(("ERROR - Something went wrong with getting file from myjson!").red);
+
+    console.log("STATUS - Received JSON file from myjson...".green);
+    emoteLog = JSON.parse(body);
+    fs.writeFile('ohIsee.json', JSON.stringify(emoteLog), 'utf8', err => {
+      if(err) throw err;
+      console.log("STATUS - Local JSON file updated!".blue);
+      console.log(("INFO - " + Object.keys(emoteLog.OhISee).length + " entries in JSON.").gray);
+    });
+  });
+
+
+
   //emoteLog.whispers.includes(chatter.display_name);
 } catch (e) {
   console.log(("STATUS - CREATING JSON FILE"));
 }
 
 var timeout = 60000;
+var timeout2 = 30000;
+
 
 var onTimeout = false;
 var onTimeout2 = false;
@@ -39,7 +57,7 @@ twitch.on('join', channel => {
   console.log(("STATUS - Successfully joined channel " + channel + "...").green);
 });
 
-twitch.join('trihex');
+
 
 console.log("STATUS - OhISee Bot Started...".green);
 
@@ -47,22 +65,22 @@ setTimeout(onlineMessage, 5000);
 
 function statusUpdate(){
   var lines = Object.keys(emoteLog.OhISee).length;
-  twitch.say(("📝 OhISee I have taken " + lines + " lines of notes from you guys! That's "+Math.ceil(lines/31)+" pages! OhISee My notes: https://ohisee.herokuapp.com/ 📝 OhISee"), err => {
-    console.log(err);
-  });
+  twitch.say(("📝 OhISee I have taken " + lines + " lines of notes from you guys! That's "+Math.ceil(lines/31)+" pages! 📝 OhISee"));
 }
 
 function onlineMessage(){
+  twitch.join('trihex');
   twitch.say(("📝 OhISee I'm still in testing! Be nice! Now taking your notes...use '📝 OhISee' to take a note!"));
 }
 
-setTimeout(statusUpdate, 10000);
+//setTimeout(statusUpdate, 10000);
 setInterval(statusUpdate, 300000);
 
 twitch.on('message', chatter => {
   //if(chatter.display_name == "itsMichal" && false);
   //console.log(chatter);
   if(chatter.message === "!RandomNote" && chatter.display_name != "OhISeeBOT" && !onTimeout2){
+    console.log("EVENT - Someone used !RandomNote".yellow);
     var randumbkeyspot = Math.floor(Math.random()*(Object.keys(emoteLog.OhISee).length));
     var randumb = emoteLog.OhISee[Object.keys(emoteLog.OhISee)[randumbkeyspot]];
     try{
@@ -71,7 +89,18 @@ twitch.on('message', chatter => {
       console.log(e);
     }
     onTimeout2 = true;
-    setTimeout(timeoutReset2, timeout);
+    setTimeout(timeoutReset2, timeout2);
+  }
+  if(chatter.message === "!Notebook" && chatter.display_name != "OhISeeBOT" && !onTimeout2){
+    console.log("EVENT - Someone used !Notebook".yellow);
+    try{
+      statusUpdate();
+      twitch.say("/w @"+chatter.display_name+" OhISee 📝 You can check out my entire 📝 at https://ohisee.herokuapp.com/. Thanks!");
+    }catch (e){
+      console.log(e);
+    }
+    onTimeout2 = true;
+    setTimeout(timeoutReset2, timeout2);
   }
 
   msgsp++;
@@ -129,6 +158,15 @@ twitch.on('message', chatter => {
 
       msgss++;
     }
+
+    request({ url: "https://api.myjson.com/bins/9p6hk", method: 'PUT', json: emoteLog}, function(err, resp, body){
+      if(err){
+        console.log("ERROR - Problem logging to myjson!".red);
+        console.log(("DETAILS - " + err + " / " + resp + " / " + body).grey);
+      }
+    });
+
+
 
     fs.writeFile('ohIsee.json', JSON.stringify(emoteLog), 'utf8', err => {
       if(err) throw err;
