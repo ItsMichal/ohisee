@@ -14,11 +14,36 @@
 
   <!-- 2 lazy 4 stylesheets -->
   <style>
+  html {
+    font-size: 1rem;
+  }
+
+  @include media-breakpoint-up(sm) {
+    html {
+      font-size: 1.2rem;
+    }
+  }
+
+  @include media-breakpoint-up(md) {
+    html {
+      font-size: 1.4rem;
+    }
+  }
+
+  @include media-breakpoint-up(lg) {
+    html {
+      font-size: 1.6rem;
+    }
+  }
+  #grades{
+    font-size: 0.8rem;
+    border-right: 1px solid #ccc;
+  }
   </style>
 </head>
 
 <body>
-  <div class="container">
+  <div class="container-fluid">
     <div class="row">
       <div class="col align-middle text-center">
         <h1 class="display-2 ">📝<img class="img-fluid" style="height:5.5rem;"  src="https://cdn.frankerfacez.com/emoticon/230001/4"> OhISee</h1>
@@ -28,7 +53,9 @@
         <hr>
       </div>
     </div>
-    <div id="content">
+    <div class="row">
+      <div id="content" class="col-sm-9 col-xs-12 table-responsive"></div>
+      <div id="grades" class="col-sm-3 col-xs-12"></div>
     </div>
   </div>
 
@@ -48,6 +75,7 @@
     function populate() {
       //DOM
       var contentdiv = document.getElementById("content");
+      var gradesdiv = document.getElementById("grades");
       contentdiv.innerHTML = "";
       var emoteJSON = {};
       getJSONFromFile(function(json) {
@@ -59,6 +87,7 @@
         var tables = [];
         var newJSON = {};
         var OhISee = emoteJSON['OhISee'];
+        var Notetakers = emoteJSON['Notetakers'];
         console.log(OhISee);
         for (var i in OhISee) {
           if (OhISee.hasOwnProperty(i)) {
@@ -77,7 +106,9 @@
 
               title.innerHTML = OhISee[i].times + " notes";
               tableheaders[0].innerHTML = '📝<img class="img-fluid" style="height:1rem;"  src="https://cdn.frankerfacez.com/emoticon/230001/4">';
+              tableheaders[0].setAttribute("scope","row");
               tableheaders[1].innerHTML = "Notetakers";
+              tableheaders[1].setAttribute("scope","row");
 
 
               tableheadrow.appendChild(tableheaders[0]);
@@ -95,7 +126,7 @@
             //populate a new row
             var whole = newJSON[OhISee[i].times];
             var table = whole.children[1];
-            var row = table.insertRow(-1);
+            var row = table.insertRow(1);
             var cell1 = row.insertCell(0);
             var cell2 = row.insertCell(1);
             cell1.innerHTML = (OhISee[i].text != "") ? OhISee[i].text : '<img class="img-fluid" style="width:100%"; src="https://cdn.frankerfacez.com/emoticon/230001/4">📝</img>';
@@ -113,6 +144,150 @@
           }
         }
 
+        //Hello
+        var gradescon = document.createElement('table');
+        gradescon.setAttribute("class", "table");
+        var gradeJSON = {};
+        var sortedTakers = [];
+        var topamt = 0;
+        for (var ntkr in Notetakers) {
+          if (Notetakers.hasOwnProperty(ntkr)) {
+            sortedTakers.push(ntkr);
+            if (Notetakers[ntkr].notecount > topamt) {
+              topamt = Notetakers[ntkr].notecount;
+            }
+          }
+
+        }
+        console.log(("DEBUG - Top Count - " + topamt).gray);
+        sortedTakers.sort((a,b) => Notetakers[b].notecount - Notetakers[a].notecount);
+
+        for(var k = 0; k < sortedTakers.length; k++){
+            //Get grade
+            var currentntkr = Notetakers[sortedTakers[k]];
+            var cnt = currentntkr.notecount;
+            var averagepp = emoteJSON.totalcount / emoteJSON.whispers.length;
+            console.log(("DEBUG - Average Note Count Per Person - " + averagepp));
+
+
+            var cnt = currentntkr.notecount;
+
+            var score = (cnt / (averagepp * 2)) * 50;
+            if (score > 75) {
+              score = 75;
+            }
+            score += (cnt / topamt) * 50;
+
+            var grade = 0;
+            if(score >= 125){
+              grade = 14;
+            }else if(score > 100){
+              grade = 13;
+            }else if(score > 96){
+              grade = 12;
+            }else if(score > 93){
+              grade = 11;
+            }else if(score > 90){
+              grade = 10;
+            }else if(score > 86){
+              grade = 9;
+            }else if(score >83){
+              grade = 8;
+            }else if(score >80){
+              grade = 7;
+            }else if(score > 76){
+              grade = 6;
+            }else if(score > 73){
+              grade = 5;
+            }else if(score > 70){
+              grade = 4;
+            }else if(score > 66){
+              grade = 3;
+            }else if(score > 63){
+              grade = 2;
+            }else if(score > 60){
+              grade = 1;
+            }else{
+              grade = 0;
+            }
+            var gradetxt = "";
+
+            if(grade >= 14){
+              gradetxt = '<h4>List of Grades</h4><hr>Valedictorian';
+            }else if(grade > 12){
+              gradetxt = 'A++';
+            }else if(grade > 11){
+              gradetxt = 'A+';
+            }else if(grade > 10){
+              gradetxt = 'A';
+            }else if(grade > 9){
+              gradetxt = 'A-';
+            }else if(grade > 8){
+              gradetxt = 'B+';
+            }else if(grade >7){
+              gradetxt = 'B';
+            }else if(grade >6){
+              gradetxt = 'B-';
+            }else if(grade > 5){
+              gradetxt = 'C+';
+            }else if(grade > 4){
+              gradetxt = 'C';
+            }else if(grade > 3){
+              gradetxt = 'C-';
+            }else if(grade > 2){
+              gradetxt = 'D+';
+            }else if(grade > 1){
+              gradetxt = 'D';
+            }else if(grade > 0){
+              gradetxt = 'D-';
+            }else{
+              gradetxt = 'F';
+            }
+
+            console.log(Notetakers[i])
+            if (!gradeJSON.hasOwnProperty(grade)) {
+
+
+              //create new table
+              var whole = document.createElement('div');
+              var table = document.createElement('table');
+              var title = document.createElement('h6');
+              table.setAttribute("class", "table");
+              var tablehead = document.createElement('thead');
+              var tableheadrow = document.createElement('tr');
+              var tableheaders = [document.createElement('th'), document.createElement('th')];
+
+              title.innerHTML = gradetxt;
+              tableheaders[0].innerHTML = 'Name';
+              tableheaders[0].setAttribute("scope","row");
+              tableheaders[1].innerHTML = "Grade";
+              tableheaders[1].setAttribute("scope","row");
+
+
+              tableheadrow.appendChild(tableheaders[0]);
+              tableheadrow.appendChild(tableheaders[1]);
+              tablehead.appendChild(tableheadrow);
+              table.appendChild(tablehead);
+
+              whole.appendChild(title);
+              whole.appendChild(table);
+
+              gradeJSON[grade] = whole;
+              console.log(tables[tables.length])
+            }
+
+            //populate a new row
+            var whole = gradeJSON[grade];
+            var table = whole.children[1];
+            var row = table.insertRow(-1);
+            var cell1 = row.insertCell(0);
+            var cell2 = row.insertCell(1);
+            cell1.innerHTML = sortedTakers[k];
+            console.log(OhISee[i].users)
+            cell2.innerHTML = score.toFixed(1) + "%";
+
+          }
+
         var jsarray = Object.keys(newJSON);
         jsarray= jsarray.sort(function(a,b){return parseInt(b)-parseInt(a)});
         console.log(jsarray);
@@ -122,6 +297,17 @@
           maincon.appendChild(document.createElement('hr'));
         }
         contentdiv.appendChild(maincon);
+
+        var garray = Object.keys(gradeJSON);
+        garray= garray.sort(function(a,b){return parseInt(b)-parseInt(a)});
+        console.log(garray);
+        for(var j = 0; j < garray.length; j++){
+          console.log(j);
+          gradescon.appendChild(gradeJSON[garray[j]]);
+          gradescon.appendChild(document.createElement('hr'));
+        }
+
+        gradesdiv.appendChild(gradescon);
 
         var randumbkeyspot = Math.floor(Math.random()*(Object.keys(OhISee).length));
         var randumb = OhISee[Object.keys(OhISee)[randumbkeyspot]];
@@ -137,6 +323,7 @@
     }
 
     populate();
+
   </script>
 </body>
 
