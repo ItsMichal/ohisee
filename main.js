@@ -53,8 +53,8 @@ try {
   console.log(("STATUS - CREATING JSON FILE"));
 }
 
-var timeout = 480000;
-var timeout2 = 5000;
+var timeout = 960000;
+var timeout2 = 25000;
 
 
 var onTimeout = false;
