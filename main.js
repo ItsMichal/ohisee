@@ -116,7 +116,7 @@ twitch.on('message', chatter => {
       sensitivity: 'base'
     }) ==0 &&
     chatter.display_name != "OhISeeBOT" &&
-    !onTimeout2) {
+    (!onTimeout2 || chatter.display_name == "itsMichal")) {
     console.log("EVENT - Someone used !RandomNote".yellow);
 
     var manyNotes = 0;
@@ -165,7 +165,7 @@ twitch.on('message', chatter => {
       sensitivity: 'base'
     }) ==0 &&
     !isNaN(chatter.message.split(' ')[1]) &&
-    chatter.display_name != "OhISeeBOT" && !onTimeout2) {
+    chatter.display_name != "OhISeeBOT" && (!onTimeout2 || chatter.display_name == "itsMichal")) {
     console.log("EVENT - Someone used !Note".yellow);
     var usernumber = parseInt(chatter.message.split(' ')[1]);
     if (usernumber <= 0 || usernumber > (Object.keys(emoteLog.OhISee).length)) {
@@ -192,7 +192,7 @@ twitch.on('message', chatter => {
   //!TopNotetakers
   if (chatter.message.split(' ')[0].localeCompare("!HonorRoll", 'en', {
       sensitivity: 'base'
-    })==0 && chatter.display_name != "OhISeeBOT" && !onTimeout2) {
+    })==0 && chatter.display_name != "OhISeeBOT" && (!onTimeout2 || chatter.display_name == "itsMichal")) {
 
       console.log("EVENT - Someone used !HonorRoll".yellow);
       var list = [];
@@ -243,7 +243,7 @@ twitch.on('message', chatter => {
   //!Grade
   if (chatter.message.split(' ')[0].localeCompare("!Grade", 'en', {
       sensitivity: 'base'
-    })==0 && chatter.display_name != "OhISeeBOT" && !onTimeout2) {
+    })==0 && chatter.display_name != "OhISeeBOT" && (!onTimeout2 || chatter.display_name == "itsMichal")) {
 
     console.log("EVENT - Someone used !Grade".yellow);
 
@@ -349,7 +349,7 @@ twitch.on('message', chatter => {
 
   if (chatter.message.localeCompare("!Notebook", 'en', {
       sensitivity: 'base'
-    })==0 && chatter.display_name != "OhISeeBOT" && !onTimeout2) {
+    })==0 && chatter.display_name != "OhISeeBOT" && (!onTimeout2 || chatter.display_name == "itsMichal")) {
     console.log("EVENT - Someone used !Notebook".yellow);
     try {
       statusUpdate();
@@ -410,9 +410,9 @@ twitch.on('message', chatter => {
         twitch.say("📝 OhISee hmm okay, I've written that down in my notes, @" + chatter.display_name + "...cool!");
         if (!emoteLog.whispers.includes(chatter.display_name)) {
           twitch.say("/w @" + chatter.display_name + " OhISee 📝 check out my 📝 at https://ohisee.herokuapp.com/ ...this is a test, so please be gentle. You won't get any more whispers from me (hopefully!)");
+          twitch.say("/w @itsMichal I just messaged " + chatter.display_name + " for the first time! POGGERS");
           emoteLog.whispers.push(chatter.display_name);
         } else {
-          twitch.say("/w @itsMichal I can't message " + chatter.display_name + " anymore PepeHands");
           console.log("STATUS - COULD NOT WHISPER, ON LIST".red);
         }
 
@@ -429,9 +429,9 @@ twitch.on('message', chatter => {
       if (!emoteLog.whispers.includes(chatter.display_name)) {
         twitch.say("/w @" + chatter.display_name + " OhISee 📝 hmm okay, I've written that down " + chatter.display_name + ", so check out my 📝 at https://ohisee.herokuapp.com/ ...this is a test, so please be gentle. You won't get any more whispers from me (hopefully!)");
         emoteLog.whispers.push(chatter.display_name);
+        twitch.say("/w @itsMichal I just messaged " + chatter.display_name + " for the first time! POGGERS");
         console.log("STATUS - ON TIMEOUT, WHISPERED INFO".purple);
       } else {
-        twitch.say("/w @itsMichal I can't message " + chatter.display_name + " anymore PepeHands");
         console.log("STATUS - COULD NOT WHISPER, ON LIST".red);
       }
       //twitch.say("/w @"+chatter.display_name+" 📝 OhISee hmm, I've written that down @" + chatter.display_name +"...check out my 📝: https://ohisee.herokuapp.com/");
