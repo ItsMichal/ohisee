@@ -60,6 +60,9 @@ var timeout2 = 5000;
 var onTimeout = false;
 var onTimeout2 = false;
 
+onTimeout = true;
+setTimeout(timeoutReset, timeout);
+
 var msgsp = 0,
   msgss = 0;
 
@@ -208,21 +211,21 @@ twitch.on('message', chatter => {
       console.log(("DEBUG - Top Count - " + topamt).gray);
       list.sort(sortPeople);
       var cnt = emoteLog.Notetakers[list[0]].notecount;
-      var score1 = (cnt / (averagepp * 2)) * 50;
+      var score1 = (cnt / (averagepp)) * 50;
       if (score1 > 75) {
         score1 = 75;
       }
       score1 += (cnt / topamt) * 50;
 
       cnt = emoteLog.Notetakers[list[1]].notecount;
-      var score2 = (cnt / (averagepp * 2)) * 50;
+      var score2 = (cnt / (averagepp)) * 50;
       if (score2 > 75) {
         score2 = 75;
       }
       score2 += (cnt / topamt) * 50;
 
       cnt = emoteLog.Notetakers[list[2]].notecount;
-      var score3 = (cnt / (averagepp * 2)) * 50;
+      var score3 = (cnt / (averagepp)) * 50;
       if (score3 > 75) {
         score3 = 75;
       }
@@ -271,7 +274,7 @@ twitch.on('message', chatter => {
 
         //valid
 
-        var score = (cnt / (averagepp * 2)) * 50;
+        var score = (cnt / (averagepp)) * 50;
         if (score > 75) {
           score = 75;
         }
@@ -319,7 +322,7 @@ twitch.on('message', chatter => {
 
         //valid
 
-        var score = (cnt / (averagepp * 2)) * 50;
+        var score = (cnt / (averagepp)) * 50;
         if (score > 75) {
           score = 75;
         }
