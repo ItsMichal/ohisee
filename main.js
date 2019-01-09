@@ -236,6 +236,8 @@ twitch.on('message', chatter => {
       } catch (e) {
         console.log(e);
       }
+      onTimeout2 = true;
+      setTimeout(timeoutReset2, timeout2);
   }
 
   //!Grade
@@ -341,6 +343,8 @@ twitch.on('message', chatter => {
         }
       }
     }
+    onTimeout2 = true;
+    setTimeout(timeoutReset2, timeout2);
   }
 
   if (chatter.message.localeCompare("!Notebook", 'en', {
