@@ -6,7 +6,7 @@ var request = require('request');
 var sanitizeHtml = require('sanitize-html');
 var Filter = require('bad-words'),
   filter = new Filter({
-    placeHolder: 'D: '
+    placeHolder: '*'
   });
 var ordinal = require('ordinal');
 filter.removeWords("shit", "hell", "heck", "damn");
@@ -54,7 +54,7 @@ try {
 }
 
 var timeout = 960000;
-var timeout2 = 25000;
+var timeout2 = 18000;
 
 
 var onTimeout = false;
