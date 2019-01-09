@@ -175,7 +175,7 @@ twitch.on('message', chatter => {
       var randumbkeyspot = usernumber - 1;
       var randumb = emoteLog.OhISee[Object.keys(emoteLog.OhISee)[randumbkeyspot]];
       try {
-        twitch.say(("📝 OhISee ☝️ Okay! Here's a note from " + randumb.users[0] + ": " + filter.clean(randumb.text)));
+        twitch.say(("📝 OhISee ☝️ Okay! Here's note "+usernumber+" from " + randumb.users[0] + ": " + filter.clean(randumb.text)));
       } catch (e) {
         console.log(e);
       }
