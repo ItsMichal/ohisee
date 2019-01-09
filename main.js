@@ -16,7 +16,7 @@ filter.removeWords("shit", "hell", "heck", "damn");
 var twitch = new TwitchBot({
   username: 'ohiseebot',
   oauth: '***REMOVED***',
-  channels: ['supersaiyanlilb']
+  channels: ['trihex']
 });
 
 // try{
@@ -284,7 +284,7 @@ twitch.on('message', chatter => {
         }
       } else {
         try {
-          twitch.say(("📝 OhISee Hmm...I can't find that user, " + chatter.display_name));
+          twitch.say(("📝 OhISee Hmm...I can't find that user in my notes, " + chatter.display_name));
         } catch (e) {
           console.log(e);
         }
