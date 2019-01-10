@@ -54,7 +54,7 @@ try {
 }
 
 var timeout = 960000;
-var timeout2 = 21000;
+var timeout2 = 19000;
 
 
 var onTimeout = false;
@@ -123,9 +123,9 @@ twitch.on('message', chatter => {
     if (chatter.message.split(' ').length > 1 && !isNaN(chatter.message.split(' ')[1])) {
       //chatter gave number
       var number = parseInt(chatter.message.split(' ')[1]);
-      if ((number <= 0 || number > 4) && chatter.display_name !== "itsMichal") { //oob
+      if ((number <= 0 || number > 5) && chatter.display_name !== "itsMichal") { //oob
         try {
-          twitch.say(("📝 OhISee Hmm, try a number from 1-4, " + chatter.display_name));
+          twitch.say(("📝 OhISee Hmm, try a number from 1-5, " + chatter.display_name));
         } catch (e) {
           console.log(e);
         }
