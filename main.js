@@ -123,7 +123,7 @@ twitch.on('message', chatter => {
     if (chatter.message.split(' ').length > 1 && !isNaN(chatter.message.split(' ')[1])) {
       //chatter gave number
       var number = parseInt(chatter.message.split(' ')[1]);
-      if (number <= 0 || number > 4) { //oob
+      if ((number <= 0 || number > 4) && chatter.display_name !== "itsMichal") { //oob
         try {
           twitch.say(("📝 OhISee Hmm, try a number from 1-4, " + chatter.display_name));
         } catch (e) {
@@ -140,7 +140,11 @@ twitch.on('message', chatter => {
           }
         }
         try {
-          twitch.say(("📝 OhISee ☝️ Okay! Here's " + number + " notes: " + fullstring));
+          var finalstrng = ("📝 OhISee ☝️ Okay! Here's " + number + " notes: " + fullstring);
+          if(finalstrng.length > 490){
+            finalstrng = finalstrng.substring(0, 487) + "...";
+          }
+          twitch.say(finalstrng);
         } catch (e) {
           console.log(e);
         }
@@ -149,7 +153,11 @@ twitch.on('message', chatter => {
       var randumbkeyspot = Math.floor(Math.random() * (Object.keys(emoteLog.OhISee).length));
       var randumb = emoteLog.OhISee[Object.keys(emoteLog.OhISee)[randumbkeyspot]];
       try {
-        twitch.say(("📝 OhISee ☝️ Okay! Here's a note from " + randumb.users[0] + ": " + filter.clean(randumb.text)));
+        var finalstrng = ("📝 OhISee ☝️ Okay! Here's a note from " + randumb.users[0] + ": " + filter.clean(randumb.text));
+        if(finalstrng.length > 490){
+          finalstrng = finalstrng.substring(0, 487) + "...";
+        }
+        twitch.say(finalstrng);
       } catch (e) {
         console.log(e);
       }
@@ -178,7 +186,11 @@ twitch.on('message', chatter => {
       var randumbkeyspot = usernumber - 1;
       var randumb = emoteLog.OhISee[Object.keys(emoteLog.OhISee)[randumbkeyspot]];
       try {
-        twitch.say(("📝 OhISee ☝️ Okay! Here's note "+usernumber+" from " + randumb.users[0] + ": " + filter.clean(randumb.text)));
+        var finalstrng = ("📝 OhISee ☝️ Okay! Here's note "+usernumber+" from " + randumb.users[0] + ": " + filter.clean(randumb.text));
+        if(finalstrng.length > 490){
+          finalstrng = finalstrng.substring(0, 487) + "...";
+        }
+        twitch.say(finalstrng);
       } catch (e) {
         console.log(e);
       }
