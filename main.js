@@ -16,7 +16,7 @@ filter.removeWords("shit", "hell", "heck", "damn");
 var twitch = new TwitchBot({
   username: 'ohiseebot',
   oauth: '***REMOVED***',
-  channels: ['itsmichal']
+  channels: ['trihex', 'itsmichal']
 });
 
 // try{
@@ -54,7 +54,7 @@ try {
 }
 
 var timeout = 960000;
-var timeout2 = 18000;
+var timeout2 = 21000;
 
 
 var onTimeout = false;
@@ -82,7 +82,7 @@ console.log("STATUS - OhISee Bot Started...".green);
 setTimeout(onlineMessage, 5000);
 
 
-var currentchannel = '';
+var currentchannel = 'trihex';
 
 function statusUpdate() {
   var lines = Object.keys(emoteLog.OhISee).length;
