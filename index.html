@@ -255,17 +255,20 @@
               table.setAttribute("class", "table");
               var tablehead = document.createElement('thead');
               var tableheadrow = document.createElement('tr');
-              var tableheaders = [document.createElement('th'), document.createElement('th')];
+              var tableheaders = [document.createElement('th'), document.createElement('th'), document.createElement('th')];
 
               title.innerHTML = gradetxt;
               tableheaders[0].innerHTML = 'Name';
               tableheaders[0].setAttribute("scope","row");
-              tableheaders[1].innerHTML = "Grade";
+              tableheaders[1].innerHTML = "# Notes";
               tableheaders[1].setAttribute("scope","row");
+              tableheaders[2].innerHTML = "Grade";
+              tableheaders[2].setAttribute("scope","row");
 
 
               tableheadrow.appendChild(tableheaders[0]);
               tableheadrow.appendChild(tableheaders[1]);
+              tableheadrow.appendChild(tableheaders[2]);
               tablehead.appendChild(tableheadrow);
               table.appendChild(tablehead);
 
@@ -282,9 +285,11 @@
             var row = table.insertRow(-1);
             var cell1 = row.insertCell(0);
             var cell2 = row.insertCell(1);
+            var cell3 = row.insertCell(2);
             cell1.innerHTML = sortedTakers[k];
             console.log(OhISee[i].users)
-            cell2.innerHTML = score.toFixed(1) + "%";
+            cell2.innerHTML = currentntkr.notecount;
+            cell3.innerHTML = score.toFixed(1) + "%";
 
           }
 

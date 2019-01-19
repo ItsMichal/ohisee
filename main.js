@@ -15,8 +15,8 @@ filter.removeWords("shit", "hell", "heck", "damn");
 //Twitch Section
 var twitch = new TwitchBot({
   username: 'ohiseebot',
-  oauth: '***REMOVED***',
-  channels: ['trihex']
+  oauth: 'oauth:xb5nk0xvfyludzjl0m2p2vjdkwtqcj',
+  channels: ['itsmichal']
 });
 
 // try{
