@@ -1,3 +1,5 @@
+//Spyro Last- "they love us"-rodzo
+
 var TwitchBot = require("twitch-bot");
 var fs = require('fs');
 var colors = require('colors');
@@ -496,8 +498,16 @@ app.get('/', function(req, res) {
   res.setHeader('Content-Type', 'text/html');
   res.send(fs.readFileSync('index.html'));
 });
+app.get('/agdq19', function(req, res) {
+  res.setHeader('Content-Type', 'text/html');
+  res.send(fs.readFileSync('agdq2019.html'));
+});
 app.get(['/ohIsee.json', '/ohIsee'], function(req, res) {
   res.setHeader('Content-Type', 'json');
   res.send(fs.readFileSync('ohIsee.json'));
+});
+app.get(['/AGDQ2019.json', '/ohIsee'], function(req, res) {
+  res.setHeader('Content-Type', 'json');
+  res.send(fs.readFileSync('AGDQ2019.json'));
 });
 app.listen((process.env.PORT || 8000), () => console.log("STATUS - Webserver started listening on 8000...".green));
