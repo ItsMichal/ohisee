@@ -1,11 +1,15 @@
 //Spyro Last- "they love us"-rodzo
-
+//Portal 2 Last- "Ryodragon7: imGlitch ADS"
+//SMB 2 Last-  console.log(resp)
 var TwitchBot = require("twitch-bot");
 var fs = require('fs');
 var colors = require('colors');
 var express = require('express');
 var request = require('request');
 var sanitizeHtml = require('sanitize-html');
+var tapi = require('twitch-api-v5');
+//tapi.clientID = '***REMOVED***';
+tapi.clientID = '***REMOVED***';
 var Filter = require('bad-words'),
   filter = new Filter({
     placeHolder: '*'
@@ -42,6 +46,9 @@ try {
 
     console.log("STATUS - Received JSON file from myjson...".green);
     emoteLog = JSON.parse(body);
+    updateGameName();
+
+
     fs.writeFile('ohIsee.json', JSON.stringify(emoteLog), 'utf8', err => {
       if (err) throw err;
       console.log("STATUS - Local JSON file updated!".blue);
@@ -59,7 +66,6 @@ try {
 var timeout = 960000;
 var timeout2 = 19000;
 
-
 var onTimeout = false;
 var onTimeout2 = false;
 
@@ -68,6 +74,39 @@ setTimeout(timeoutReset, timeout);
 
 var msgsp = 0,
   msgss = 0;
+
+//Game NAME
+
+
+var gameName = "N/a";
+
+
+setInterval(updateGameName, 60000);
+
+function updateGameName(){
+  tapi.clientID = '***REMOVED***';
+  tapi.channels.channelByID({channelID:22510310}, (err, resp)=>{
+    if(err){
+      console.log(err);
+    }else{
+      console.log("INFO - Updated Game".gray);
+      var gameNameInit = resp.status;
+      //onsole.log(resp);
+      gameName = gameNameInit.slice(gameNameInit.indexOf("-")+2, gameNameInit.length);
+
+      if(!emoteLog.games.hasOwnProperty(gameName)){
+
+        var abbrev = gameName.replace( /\B[a-zA-Z'-]+/g, '' );
+        abbrev = abbrev.replace(/[\s]/g,'');
+        console.log(abbrev);
+        //add game
+        emoteLog.games[gameName]={name:gameName, id:Object.keys(emoteLog.games).length, short:abbrev};
+        console.log("EVENT - New game detected! - "+gameName+" ("+abbrev+")");
+      }
+
+    }
+  });
+}
 
 twitch.on('join', channel => {
   console.log(("STATUS - Successfully joined channel " + channel + "...").green);
@@ -78,7 +117,7 @@ twitch.on('part', channel => {
   console.log(("STATUS - Successfully left channel " + channel + "...").green);
 });
 
-
+tapi.clientID = 'Twitch app client-id';
 
 console.log("STATUS - OhISee Bot Started...".green);
 
@@ -102,7 +141,7 @@ setInterval(statusUpdate, 3000000);
 twitch.on('message', chatter => {
   //if(chatter.display_name == "itsMichal" && false);
   //console.log(chatter);
-  if(chatter.display_name == "itsMichal" && chatter.message.split(' ')[0].localeCompare("!joinchannel", 'en', {sensitivity:'base'}) ==0){
+  if((chatter.display_name == "itsMichal" || chatter.mod) && chatter.message.split(' ')[0].localeCompare("!joinchannel", 'en', {sensitivity:'base'}) ==0){
       var newchannel = chatter.message.split(' ')[1];
       try {
         twitch.say(("👋  OhISee I've been told to move over to " + newchannel + "'s channel, see you there!"));
@@ -398,12 +437,16 @@ twitch.on('message', chatter => {
       emoteLog.OhISee[fullmsg.toLowerCase()] = {
         "text": fullmsg,
         "times": 1,
-        "users": [chatter.display_name]
+        "users": [chatter.display_name],
+        "games": [emoteLog.games[gameName].id]
       };
     } else {
       emoteLog.OhISee[fullmsg.toLowerCase()].times += 1;
       if (!emoteLog.OhISee[fullmsg.toLowerCase()].users.includes(chatter.display_name)) {
         emoteLog.OhISee[fullmsg.toLowerCase()].users.push(chatter.display_name);
+      }
+      if (!emoteLog.OhISee[fullmsg.toLowerCase()].games.includes(emoteLog.games[gameName].id)) {
+        emoteLog.OhISee[fullmsg.toLowerCase()].games.push(emoteLog.games[gameName].id);
       }
     }
 
@@ -411,12 +454,16 @@ twitch.on('message', chatter => {
     if (!emoteLog.Notetakers.hasOwnProperty(chatter.display_name)) {
       emoteLog.Notetakers[chatter.display_name] = {
         "notecount": 1,
-        "noteids": [Object.keys(emoteLog.OhISee).indexOf(fullmsg.toLowerCase())]
+        "noteids": [Object.keys(emoteLog.OhISee).indexOf(fullmsg.toLowerCase())],
+        "games": [emoteLog.games[gameName].id]
       };
     } else {
       emoteLog.Notetakers[chatter.display_name].notecount += 1;
       if (!emoteLog.Notetakers[chatter.display_name].noteids.includes(Object.keys(emoteLog.OhISee).indexOf(fullmsg.toLowerCase()))) { //jesus
         emoteLog.Notetakers[chatter.display_name].noteids.push(Object.keys(emoteLog.OhISee).indexOf(fullmsg.toLowerCase()));
+      }
+      if (!emoteLog.Notetakers[chatter.display_name].games.includes(emoteLog.games[gameName].id)) { //jesus
+        emoteLog.Notetakers[chatter.display_name].games.push(emoteLog.games[gameName].id);
       }
     }
 

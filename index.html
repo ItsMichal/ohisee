@@ -47,7 +47,7 @@
     <div class="row">
       <div class="col align-middle text-center">
         <h1 class="display-2 ">📝<img class="img-fluid" style="height:5.5rem;"  src="https://cdn.frankerfacez.com/emoticon/230001/4"> OhISee</h1>
-        <small class="text-muted">built by @itsMichal / Running on Trihex's chat for SGDQ 2019. Buggy as hell. / <span id="cnt"></span></small><br>
+        <small class="text-muted">built by @itsMichal / Running on Trihex's chat for SGDQ 2019. Buggy as hell. / <b>NEW!</b> Game tracking added. / <span id="cnt"></span></small><br>
         <small class="text-muted"><a href="agdq19">Click here for the old notes from AGDQ 2019 and before.</a></small><br><br>
         <h2 class="display-4" style="font-size:2rem;"><b>Random Note: </b><i id="rand"></i></h2><br>
         <h2 class="display-4" style="font-size:2rem;"><b>Latest Note: </b><i id="latest"></i></h2>
@@ -89,6 +89,7 @@
         var newJSON = {};
         var OhISee = emoteJSON['OhISee'];
         var Notetakers = emoteJSON['Notetakers'];
+        var Gameslist = emoteJSON['games'];
         console.log(OhISee);
         for (var i in OhISee) {
           if (OhISee.hasOwnProperty(i)) {
@@ -103,17 +104,21 @@
               table.setAttribute("class", "table");
               var tablehead = document.createElement('thead');
               var tableheadrow = document.createElement('tr');
-              var tableheaders = [document.createElement('th'), document.createElement('th')];
+              var tableheaders = [document.createElement('th'), document.createElement('th'), document.createElement('th')];
 
               title.innerHTML = OhISee[i].times + " notes";
               tableheaders[0].innerHTML = '📝<img class="img-fluid" style="height:1rem;"  src="https://cdn.frankerfacez.com/emoticon/230001/4">';
               tableheaders[0].setAttribute("scope","row");
               tableheaders[1].innerHTML = "Notetakers";
               tableheaders[1].setAttribute("scope","row");
+              tableheaders[2].innerHTML = "Games";
+              tableheaders[2].setAttribute("scope","row");
 
 
               tableheadrow.appendChild(tableheaders[0]);
               tableheadrow.appendChild(tableheaders[1]);
+              tableheadrow.appendChild(tableheaders[2]);
+
               tablehead.appendChild(tableheadrow);
               table.appendChild(tablehead);
 
@@ -130,6 +135,7 @@
             var row = table.insertRow(1);
             var cell1 = row.insertCell(0);
             var cell2 = row.insertCell(1);
+            var cell3 = row.insertCell(2);
             cell1.innerHTML = (OhISee[i].text != "") ? OhISee[i].text : '<img class="img-fluid" style="width:100%"; src="https://cdn.frankerfacez.com/emoticon/230001/4">📝</img>';
             console.log(OhISee[i].users)
             var userlist = "<small>";
@@ -141,6 +147,16 @@
             }
             userlist += "</small>";
             cell2.innerHTML = userlist;
+
+            var gameslist = "<small>";
+            for(var j = 0; j < OhISee[i].games.length; j++){
+              gameslist+= Gameslist[Object.keys(Gameslist)[OhISee[i].games[j]]].name;
+              if(j != OhISee[i].users.length-1){
+                gameslist += ', ';
+              }
+            }
+            gameslist += "</small>";
+            cell3.innerHTML = gameslist;
 
           }
         }
@@ -256,20 +272,23 @@
               table.setAttribute("class", "table");
               var tablehead = document.createElement('thead');
               var tableheadrow = document.createElement('tr');
-              var tableheaders = [document.createElement('th'), document.createElement('th'), document.createElement('th')];
+              var tableheaders = [document.createElement('th'), document.createElement('th'), document.createElement('th'),document.createElement('th')];
 
               title.innerHTML = gradetxt;
               tableheaders[0].innerHTML = 'Name';
               tableheaders[0].setAttribute("scope","row");
               tableheaders[1].innerHTML = "# Notes";
               tableheaders[1].setAttribute("scope","row");
-              tableheaders[2].innerHTML = "Grade";
+              tableheaders[2].innerHTML = "# Games";
               tableheaders[2].setAttribute("scope","row");
+              tableheaders[3].innerHTML = "Grade";
+              tableheaders[3].setAttribute("scope","row");
 
 
               tableheadrow.appendChild(tableheaders[0]);
               tableheadrow.appendChild(tableheaders[1]);
               tableheadrow.appendChild(tableheaders[2]);
+              tableheadrow.appendChild(tableheaders[3]);
               tablehead.appendChild(tableheadrow);
               table.appendChild(tablehead);
 
@@ -287,10 +306,12 @@
             var cell1 = row.insertCell(0);
             var cell2 = row.insertCell(1);
             var cell3 = row.insertCell(2);
+            var cell4 = row.insertCell(3);
             cell1.innerHTML = sortedTakers[k];
             console.log(OhISee[i].users)
             cell2.innerHTML = currentntkr.notecount;
-            cell3.innerHTML = score.toFixed(1) + "%";
+            cell3.innerHTML = currentntkr.games.length;
+            cell4.innerHTML = score.toFixed(1) + "%";
 
           }
 
