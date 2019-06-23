@@ -33,7 +33,8 @@ var emoteLog = {
 try {
   //emoteLog = JSON.parse(fs.readFileSync('ohIsee.json'));
   //request.get("https://api.myjson.com/bins/9p6hk", function(err, resp, body){
-  request.get("https://api.myjson.com/bins/13l6lk", function(err, resp, body) {
+  //request.get("https://api.myjson.com/bins/13l6lk", function(err, resp, body) {
+  request.get("https://api.myjson.com/bins/o9osd", function(err,resp,body){
     if (err)
       console.log(("ERROR - Something went wrong with getting file from myjson!").red);
 
@@ -421,7 +422,7 @@ twitch.on('message', chatter => {
       if (chatter.display_name != "OhISeeBOT") {
         twitch.say("📝 OhISee hmm okay, I've written that down in my notes, @" + chatter.display_name + "...cool!");
         if (!emoteLog.whispers.includes(chatter.display_name)) {
-          twitch.say("/w @" + chatter.display_name + " OhISee 📝 check out my 📝 at https://ohisee.herokuapp.com/ ...this is a test, so please be gentle. You won't get any more whispers from me (hopefully!)");
+          twitch.say("/w @" + chatter.display_name + " OhISee 📝 check out the notebook at https://ohisee.herokuapp.com/ ...report bugs to @itsMichal! You won't get any more whispers from me.");
           twitch.say("/w @itsMichal I just messaged " + chatter.display_name + " for the first time! POGGERS");
           emoteLog.whispers.push(chatter.display_name);
         } else {
@@ -452,7 +453,7 @@ twitch.on('message', chatter => {
     }
 
     request({
-      url: "https://api.myjson.com/bins/13l6lk",
+      url: "https://api.myjson.com/bins/o9osd",
       method: 'PUT',
       json: emoteLog
     }, function(err, resp, body) {
