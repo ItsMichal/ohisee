@@ -15,7 +15,13 @@ var Filter = require('bad-words'),
     placeHolder: '*'
   });
 var ordinal = require('ordinal');
-filter.removeWords("shit", "hell", "heck", "damn", "█", "▓", "░", "⣿", "⠉");
+filter.removeWords("shit", "hell", "heck", "damn", "ass");
+
+function filterString(initString){
+  var finalstring = filter.clean(initString);
+  finalstring = finalstring.replace(/[^\w\s]{10,}/g, '');
+  return finalstring;
+}
 //var socket = require('socket-io')(express);
 
 //Twitch Section
@@ -117,7 +123,6 @@ twitch.on('part', channel => {
   console.log(("STATUS - Successfully left channel " + channel + "...").green);
 });
 
-tapi.clientID = 'Twitch app client-id';
 
 console.log("STATUS - OhISee Bot Started...".green);
 
@@ -176,7 +181,7 @@ twitch.on('message', chatter => {
         for (var i = 0; i < number; i++) {
           var randumbkeyspot = Math.floor(Math.random() * (Object.keys(emoteLog.OhISee).length));
           var randumb = emoteLog.OhISee[Object.keys(emoteLog.OhISee)[randumbkeyspot]];
-          fullstring += filter.clean(randumb.text);
+          fullstring += filterString(randumb.text);
           if (i < number - 1) {
             fullstring += ", ";
           }
@@ -195,7 +200,7 @@ twitch.on('message', chatter => {
       var randumbkeyspot = Math.floor(Math.random() * (Object.keys(emoteLog.OhISee).length));
       var randumb = emoteLog.OhISee[Object.keys(emoteLog.OhISee)[randumbkeyspot]];
       try {
-        var finalstrng = ("📝 OhISee ☝️ Okay! Here's a note from " + randumb.users[0] + ": " + filter.clean(randumb.text));
+        var finalstrng = ("📝 OhISee ☝️ Okay! Here's a note from " + randumb.users[0] + ": " + filterString(randumb.text));
         if(finalstrng.length > 490){
           finalstrng = finalstrng.substring(0, 487) + "...";
         }
@@ -228,7 +233,7 @@ twitch.on('message', chatter => {
       var randumbkeyspot = usernumber - 1;
       var randumb = emoteLog.OhISee[Object.keys(emoteLog.OhISee)[randumbkeyspot]];
       try {
-        var finalstrng = ("📝 OhISee ☝️ Okay! Here's note "+usernumber+" from " + randumb.users[0] + ": " + filter.clean(randumb.text));
+        var finalstrng = ("📝 OhISee ☝️ Okay! Here's note "+usernumber+" from " + randumb.users[0] + ": " + filterString(randumb.text));
         if(finalstrng.length > 490){
           finalstrng = finalstrng.substring(0, 487) + "...";
         }
