@@ -15,14 +15,14 @@ var Filter = require('bad-words'),
     placeHolder: '*'
   });
 var ordinal = require('ordinal');
-filter.removeWords("shit", "hell", "heck", "damn");
+filter.removeWords("shit", "hell", "heck", "damn", "█", "▓", "░", "⣿", "⠉");
 //var socket = require('socket-io')(express);
 
 //Twitch Section
 var twitch = new TwitchBot({
   username: 'ohiseebot',
   oauth: 'oauth:xb5nk0xvfyludzjl0m2p2vjdkwtqcj',
-  channels: ['itsmichal']
+  channels: [process.env.CHANNEL]
 });
 
 // try{
