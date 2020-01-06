@@ -27,7 +27,7 @@ function filterString(initString){
 //Twitch Section
 var twitch = new TwitchBot({
   username: 'ohiseebot',
-  oauth: 'oauth:xb5nk0xvfyludzjl0m2p2vjdkwtqcj',
+  oauth: '***REMOVED***',
   channels: [process.env.CHANNEL]
 });
 
@@ -46,7 +46,8 @@ try {
   //emoteLog = JSON.parse(fs.readFileSync('ohIsee.json'));
   //request.get("https://api.myjson.com/bins/9p6hk", function(err, resp, body){
   //request.get("https://api.myjson.com/bins/13l6lk", function(err, resp, body) {
-  request.get("https://api.myjson.com/bins/o9osd", function(err,resp,body){
+  // request.get("https://api.myjson.com/bins/o9osd", function(err,resp,body){
+  request.get("https://api.myjson.com/bins/f1ta4", function(err,resp,body){
     if (err)
       console.log(("ERROR - Something went wrong with getting file from myjson!").red);
 
@@ -507,7 +508,7 @@ twitch.on('message', chatter => {
     }
 
     request({
-      url: "https://api.myjson.com/bins/o9osd",
+      url: "https://api.myjson.com/bins/f1ta4",
       method: 'PUT',
       json: emoteLog
     }, function(err, resp, body) {
@@ -554,11 +555,19 @@ app.get('/agdq19', function(req, res) {
   res.setHeader('Content-Type', 'text/html');
   res.send(fs.readFileSync('agdq19.html'));
 });
+app.get('/sgdq19', function(req, res) {
+  res.setHeader('Content-Type', 'text/html');
+  res.send(fs.readFileSync('sgdq19.html'));
+});
 app.get(['/ohIsee.json', '/ohIsee'], function(req, res) {
   res.setHeader('Content-Type', 'json');
   res.send(fs.readFileSync('ohIsee.json'));
 });
-app.get(['/AGDQ2019.json', '/ohIsee'], function(req, res) {
+app.get(['/AGDQ2019.json'], function(req, res) {
+  res.setHeader('Content-Type', 'json');
+  res.send(fs.readFileSync('AGDQ2019.json'));
+});
+app.get(['/SGDQ2019.json'], function(req, res) {
   res.setHeader('Content-Type', 'json');
   res.send(fs.readFileSync('AGDQ2019.json'));
 });
