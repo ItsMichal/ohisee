@@ -47,7 +47,7 @@ try {
   //request.get("https://api.myjson.com/bins/9p6hk", function(err, resp, body){
   //request.get("https://api.myjson.com/bins/13l6lk", function(err, resp, body) {
   // request.get("https://api.myjson.com/bins/o9osd", function(err,resp,body){
-  request.get("https://api.myjson.com/bins/f1ta4", function(err,resp,body){
+  request.get("https://api.myjson.com/bins/v6nrw", function(err,resp,body){
     if (err)
       console.log(("ERROR - Something went wrong with getting file from myjson!").red);
 
@@ -508,7 +508,7 @@ twitch.on('message', chatter => {
     }
 
     request({
-      url: "https://api.myjson.com/bins/f1ta4",
+      url: "https://api.myjson.com/bins/v6nrw",
       method: 'PUT',
       json: emoteLog
     }, function(err, resp, body) {
