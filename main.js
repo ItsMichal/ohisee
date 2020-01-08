@@ -996,11 +996,12 @@ twitch.on('message', chatter => {
         console.log("STATUS - COULD NOT WHISPER, ON LIST".red);
       }
 
-
+      
       //Increment Messages
       msgss++;
     }
 
+    jsonStoreBackup();
 
     fs.writeFile('ohIsee.json', JSON.stringify(emoteLog), 'utf8', err => {
       if (err) throw err;
@@ -1011,7 +1012,7 @@ twitch.on('message', chatter => {
   }
 });
 
-setInterval(jsonStoreBackup,600000);
+setInterval(jsonStoreBackup,120000);
 
 function jsonStoreBackup(){
   console.log("BACKUP - BACKED UP TO REMOTE".blue);
