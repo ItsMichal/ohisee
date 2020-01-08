@@ -537,7 +537,7 @@ twitch.on('message', chatter => {
   //QUIZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ
   if(chatter.message.localeCompare("!Quiz", 'en', {
     sensitivity: 'base'
-  })==0 && chatter.display_name != "OhISeeBOT" && (!onTimeout2 || chatter.display_name == "itsMichal")){
+  })==0 && chatter.display_name != "OhISeeBOT" && (!onTimeout2)){
     if(!onTimeoutQ){
 
       console.log("EVENT - QUIZ STARTED".magenta);
