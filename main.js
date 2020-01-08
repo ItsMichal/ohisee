@@ -771,6 +771,9 @@ twitch.on('message', chatter => {
 
     var newiq = (1+((percent_correct-60)/200))*emoteLog.iq;
 
+    if(firstright == ""){
+      firstright = "no one"
+    }
     //while(onTimeout2)
     if(percent_correct >= 99.99){
       //Pass 
