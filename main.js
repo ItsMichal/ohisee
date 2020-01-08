@@ -611,8 +611,12 @@ twitch.on('message', chatter => {
 
       //Send message to chat
       twitch.say((`📝 OhISee 💭 ` + chatter.display_name + ` says its QUIZ TIME! Type " OhISee [Number] " to participate!`));
-
-      setTimeout(()=>{twitch.say(`OhISee QUESTION: ` + qquestion + ` -|- ANSWERS: 1) ` + qanswers[0] + `2) `+ qanswers[1]+ `3) `+qanswers[2])}, 2000);
+      try{
+        setTimeout(()=>{twitch.say(`OhISee QUESTION: ` + qquestion + ` -|- ANSWERS: 1) ` + qanswers[0] + `2) `+ qanswers[1]+ `3) `+qanswers[2])}, 3000);
+      }catch(e){
+        setTimeout(()=>{twitch.say(`OhISee QUESTION: ` + qquestion + ` -|- ANSWERS: 1) ` + qanswers[0] + `2) `+ qanswers[1]+ `3) `+qanswers[2])}, 7000);
+      }
+      
       //setTimeout(()=>{twitch.say(`)}, 2000);
       //+`4)`+qanswers[3]));
       
