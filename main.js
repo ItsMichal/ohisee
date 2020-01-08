@@ -107,7 +107,7 @@ try {
     //Get JSON and Parse
     console.log("STATUS - Received JSON file from myjson...".green);
 
-    console.log(body);
+    //console.log(body);
 
     emoteLog = JSON.parse(body);
 
@@ -223,12 +223,12 @@ var currentchannel = '';
 function statusUpdate() {
   var lines = Object.keys(emoteLog.OhISee).length;
   //Average lines per page is 31
-  twitch.say(("📝 OhISee I have taken " + lines + " lines of notes from you guys! That's " + Math.ceil(lines / 31) + " pages! 📝 OhISee"));
+  twotchSay(("📝 OhISee I have taken " + lines + " lines of notes from you guys! That's " + Math.ceil(lines / 31) + " pages! 📝 OhISee"));
 }
 
 //Online Message
 function onlineMessage() {
-  twitch.say(("📝 OhISee I'm still in testing! Be nice! Now taking your notes...use '📝 OhISee' to take a note!"));
+  twotchSay(("📝 OhISee I'm still in testing! Be nice! Now taking your notes...use '📝 OhISee' to take a note!"));
 }
 
 //Update the status every 50 minutes...
@@ -244,7 +244,7 @@ twitch.on('message', chatter => {
     
     var newchannel = chatter.message.split(' ')[1];
       try {
-        twitch.say(("👋  OhISee I've been told to move over to " + newchannel + "'s channel, see you there!"));
+        twotchSay(("👋  OhISee I've been told to move over to " + newchannel + "'s channel, see you there!"));
       } catch (e) {
         console.log(e);
       }
@@ -273,7 +273,7 @@ twitch.on('message', chatter => {
       //Check if number is between bounds. Exception for Me.
       if ((number <= 0 || number > 5) && chatter.display_name !== "itsMichal") { //oob
         try {
-          twitch.say(("📝 OhISee Hmm, try a number from 1-5, " + chatter.display_name));
+          twotchSay(("📝 OhISee Hmm, try a number from 1-5, " + chatter.display_name));
         } catch (e) {
           console.log(e);
         }
@@ -296,7 +296,7 @@ twitch.on('message', chatter => {
           if(finalstrng.length > 490){
             finalstrng = finalstrng.substring(0, 487) + "...";
           }
-          twitch.say(finalstrng);
+          twotchSay(finalstrng);
         } catch (e) {
           console.log(e);
         }
@@ -317,13 +317,13 @@ twitch.on('message', chatter => {
             if(finalstrng.length > 490){
               finalstrng = finalstrng.substring(0, 487) + "...";
             }
-            twitch.say(finalstrng);
+            twotchSay(finalstrng);
           } catch (e) {
             console.log(e);
           }
         }else{
           //Invalid username
-          twitch.say("📝 OhISee ☝️ Sorry, I can't find anyone here with that username!");
+          twotchSay("📝 OhISee ☝️ Sorry, I can't find anyone here with that username!");
         }
       }
   
@@ -336,7 +336,7 @@ twitch.on('message', chatter => {
         if(finalstrng.length > 490){
           finalstrng = finalstrng.substring(0, 487) + "...";
         }
-        twitch.say(finalstrng);
+        twotchSay(finalstrng);
       } catch (e) {
         console.log(e);
       }
@@ -358,7 +358,7 @@ twitch.on('message', chatter => {
     var usernumber = parseInt(chatter.message.split(' ')[1]);
     if (usernumber <= 0 || usernumber > (Object.keys(emoteLog.OhISee).length)) {
       try {
-        twitch.say(("📝 OhISee Hmm, try a number from 1-" + (Object.keys(emoteLog.OhISee).length) + ", " + chatter.display_name));
+        twotchSay(("📝 OhISee Hmm, try a number from 1-" + (Object.keys(emoteLog.OhISee).length) + ", " + chatter.display_name));
       } catch (e) {
         console.log(e);
       }
@@ -370,7 +370,7 @@ twitch.on('message', chatter => {
         if(finalstrng.length > 490){
           finalstrng = finalstrng.substring(0, 487) + "...";
         }
-        twitch.say(finalstrng);
+        twotchSay(finalstrng);
       } catch (e) {
         console.log(e);
       }
@@ -424,7 +424,7 @@ twitch.on('message', chatter => {
       score3 += (cnt / topamt) * 50;
 
       try {
-        twitch.say(("📝 OhISee The top 3 students are " + list[0] + " (" +emoteLog.Notetakers[list[0]].notecount+" notes, "+score1.toFixed(1)+"%), " + list[1] + " (" +emoteLog.Notetakers[list[1]].notecount+" notes, "+score2.toFixed(1)+"%), and " + list[2] + " (" +emoteLog.Notetakers[list[2]].notecount+" notes, "+score3.toFixed(1)+"%)."));
+        twotchSay(("📝 OhISee The top 3 students are " + list[0] + " (" +emoteLog.Notetakers[list[0]].notecount+" notes, "+score1.toFixed(1)+"%), " + list[1] + " (" +emoteLog.Notetakers[list[1]].notecount+" notes, "+score2.toFixed(1)+"%), and " + list[2] + " (" +emoteLog.Notetakers[list[2]].notecount+" notes, "+score3.toFixed(1)+"%)."));
       } catch (e) {
         console.log(e);
       }
@@ -475,13 +475,13 @@ twitch.on('message', chatter => {
         score += (cnt / topamt) * 50;
 
         try {
-          twitch.say(("📝 OhISee " + username + " has taken " + cnt + " notes. I think they'll get a " + score.toFixed(1) + "% on the test! That's the " + ordinal(rank) + " best score! Keep on taking notes to improve!"));
+          twotchSay(("📝 OhISee " + username + " has taken " + cnt + " notes. I think they'll get a " + score.toFixed(1) + "% on the test! That's the " + ordinal(rank) + " best score! Keep on taking notes to improve!"));
         } catch (e) {
           console.log(e);
         }
       } else {
         try {
-          twitch.say(("📝 OhISee Hmm...I can't find that user in my notes, " + chatter.display_name));
+          twotchSay(("📝 OhISee Hmm...I can't find that user in my notes, " + chatter.display_name));
         } catch (e) {
           console.log(e);
         }
@@ -523,13 +523,13 @@ twitch.on('message', chatter => {
         score += (cnt / topamt) * 50;
 
         try {
-          twitch.say(("📝 OhISee " + username + ", you have taken " + cnt + " notes. I think you'll get a " + score.toFixed(1) + "% on the test! That's the " + ordinal(rank) + " best score! Keep on taking notes to improve!"));
+          twotchSay(("📝 OhISee " + username + ", you have taken " + cnt + " notes. I think you'll get a " + score.toFixed(1) + "% on the test! That's the " + ordinal(rank) + " best score! Keep on taking notes to improve!"));
         } catch (e) {
           console.log(e);
         }
       } else {
         try {
-          twitch.say(("📝 OhISee Hmm...it seems like you haven't taken any notes yet, " + chatter.display_name + ". Taking notes is essential for a good grade!"));
+          twotchSay(("📝 OhISee Hmm...it seems like you haven't taken any notes yet, " + chatter.display_name + ". Taking notes is essential for a good grade!"));
         } catch (e) {
           console.log(e);
         }
@@ -545,7 +545,7 @@ twitch.on('message', chatter => {
     console.log("EVENT - Someone used !Notebook".yellow);
     try {
       statusUpdate();
-      twitch.say("/w @" + chatter.display_name + " OhISee 📝 You can check out my entire 📝 at https://ohisee.herokuapp.com/. Thanks!");
+      twotchSay("/w @" + chatter.display_name + " OhISee 📝 You can check out my entire 📝 at https://ohisee.herokuapp.com/. Thanks!");
     } catch (e) {
       console.log(e);
     }
@@ -610,14 +610,14 @@ twitch.on('message', chatter => {
       emoteLog.questions[quizQuestionIndex].usage += 1;
 
       //Send message to chat
-      twitch.say((`📝 OhISee 💭 ` + chatter.display_name + ` says its QUIZ TIME! Type " OhISee [Number] " to participate!`));
+      twotchSay((`📝 OhISee 💭 ` + chatter.display_name + ` says its QUIZ TIME! Type " OhISee [Number] " to participate!`));
       try{
-        setTimeout(()=>{twitch.say(`OhISee QUESTION: ` + qquestion + ` -|- ANSWERS: 1) ` + qanswers[0] + `2) `+ qanswers[1]+ `3) `+qanswers[2])}, 3000);
+        setTimeout(()=>{twotchSay(`OhISee QUESTION: ` + qquestion + ` -|- ANSWERS: 1) ` + qanswers[0] + `2) `+ qanswers[1]+ `3) `+qanswers[2])}, 3000);
       }catch(e){
-        setTimeout(()=>{twitch.say(`OhISee QUESTION: ` + qquestion + ` -|- ANSWERS: 1) ` + qanswers[0] + `2) `+ qanswers[1]+ `3) `+qanswers[2])}, 7000);
+        setTimeout(()=>{twotchSay(`OhISee QUESTION: ` + qquestion + ` -|- ANSWERS: 1) ` + qanswers[0] + `2) `+ qanswers[1]+ `3) `+qanswers[2])}, 7000);
       }
       
-      //setTimeout(()=>{twitch.say(`)}, 2000);
+      //setTimeout(()=>{twotchSay(`)}, 2000);
       //+`4)`+qanswers[3]));
       
       //Set timeout
@@ -626,7 +626,7 @@ twitch.on('message', chatter => {
       setTimeout(timeoutResetQ, quizlength+timeoutQ);
     }else{
       //Give error message
-      twitch.say(("📝 OhISee We just gave a quiz! Please wait " + timeoutQ/1000 + " seconds between quizzes!"));
+      twotchSay(("📝 OhISee We just gave a quiz! Please wait " + timeoutQ/1000 + " seconds between quizzes!"));
     }
   }
 
@@ -764,18 +764,18 @@ twitch.on('message', chatter => {
     //while(onTimeout2)
     if(percent_correct >= 99.99){
       //Pass 
-      twitch.say(("📝 OhISee QUIZ IS OVER! - Answer: "+emoteLog.questions[quizQuestionIndex].answer + " 🎉 SPECTACULAR! (S) 🎉 Everyone got it right! And " + firstright + " was the first to do so! Chat's IQ is now " + newiq + "Q (+"+(newiq-emoteLog.iq)+")."));
+      twotchSay(("📝 OhISee QUIZ IS OVER! - Answer: "+emoteLog.questions[quizQuestionIndex].answer + " 🎉 SPECTACULAR! (S) 🎉 Everyone got it right! And " + firstright + " was the first to do so! Chat's IQ is now " + newiq + "Q (+"+(newiq-emoteLog.iq)+")."));
 
     }else if(percent_correct > 90){
-      twitch.say(("📝 OhISee QUIZ IS OVER! - Answer: "+emoteLog.questions[quizQuestionIndex].answer + "🎓 ASTOUNDING! (A) 🎓 The class got an A! And " + firstright + " was the first to get it right! Chat's IQ is now " + newiq + "Q (+"+(newiq-emoteLog.iq)+")."));
+      twotchSay(("📝 OhISee QUIZ IS OVER! - Answer: "+emoteLog.questions[quizQuestionIndex].answer + "🎓 ASTOUNDING! (A) 🎓 The class got an A! And " + firstright + " was the first to get it right! Chat's IQ is now " + newiq + "Q (+"+(newiq-emoteLog.iq)+")."));
     }else if(percent_correct > 80){
-      twitch.say(("📝 OhISee QUIZ IS OVER! - Answer: "+emoteLog.questions[quizQuestionIndex].answer + "✅ BEAUTIFUL (B) ✅ The class got a B! And " + firstright + " was the first to get it right! Chat's IQ is now " + newiq + "Q (+"+(newiq-emoteLog.iq)+")."));
+      twotchSay(("📝 OhISee QUIZ IS OVER! - Answer: "+emoteLog.questions[quizQuestionIndex].answer + "✅ BEAUTIFUL (B) ✅ The class got a B! And " + firstright + " was the first to get it right! Chat's IQ is now " + newiq + "Q (+"+(newiq-emoteLog.iq)+")."));
     }else if(percent_correct > 70){
-      twitch.say(("📝 OhISee QUIZ IS OVER! - Answer: "+emoteLog.questions[quizQuestionIndex].answer + " 👍 CORRECT (C) 👍 The class got a C! And " + firstright + " was the first to get it right! Chat's IQ is now " + newiq + "Q (+"+(newiq-emoteLog.iq)+")."));
+      twotchSay(("📝 OhISee QUIZ IS OVER! - Answer: "+emoteLog.questions[quizQuestionIndex].answer + " 👍 CORRECT (C) 👍 The class got a C! And " + firstright + " was the first to get it right! Chat's IQ is now " + newiq + "Q (+"+(newiq-emoteLog.iq)+")."));
     }else if(percent_correct > 60){
-      twitch.say(("📝 OhISee QUIZ IS OVER! - Answer: "+emoteLog.questions[quizQuestionIndex].answer + " ➖ DEPRESSING (D) ➖ The class got a D. But " + firstright + " was the first to get it right! Chat's IQ is now " + newiq + "Q (+"+(newiq-emoteLog.iq)+")."));
+      twotchSay(("📝 OhISee QUIZ IS OVER! - Answer: "+emoteLog.questions[quizQuestionIndex].answer + " ➖ DEPRESSING (D) ➖ The class got a D. But " + firstright + " was the first to get it right! Chat's IQ is now " + newiq + "Q (+"+(newiq-emoteLog.iq)+")."));
     }else{
-      twitch.say(("📝 OhISee QUIZ IS OVER! - Answer: "+emoteLog.questions[quizQuestionIndex].answer + " ❌ FAILURE (F) ❌ The class failed. But " + firstright + " was the first to get it right! Chat's IQ is now " + newiq + "Q (+"+(newiq-emoteLog.iq)+")."));
+      twotchSay(("📝 OhISee QUIZ IS OVER! - Answer: "+emoteLog.questions[quizQuestionIndex].answer + " ❌ FAILURE (F) ❌ The class failed. But " + firstright + " was the first to get it right! Chat's IQ is now " + newiq + "Q (+"+(newiq-emoteLog.iq)+")."));
     }
 
     emoteLog.iq = newiq;
@@ -795,10 +795,11 @@ twitch.on('message', chatter => {
 
   function quizWarning(){
     console.log("QUIZ - Warning given!".yellow);
-    twitch.say(("📝 OhISee 👉 ⏰ 10 seconds remaining in the quiz! Get your tests in!"), [process.env.CHANNEL], err => {
+    twotchSay(("📝 OhISee 👉 ⏰ 10 seconds remaining in the quiz! Get your tests in!"), [process.env.CHANNEL], err => {
       console.log(err);
     });
   }
+
 
   //Detect 
   if (chatter.message.split(' ').length > 1 && chatter.message.split(' ')[0] === "📝" && chatter.message.split(' ')[1].indexOf("ISee") > -1) {
@@ -962,12 +963,12 @@ twitch.on('message', chatter => {
 
     if (!onTimeout) {
       if (chatter.display_name != "OhISeeBOT") {
-        twitch.say("📝 OhISee hmm okay, I've written that down in my notes, @" + chatter.display_name + "...cool!");
+        twotchSay("📝 OhISee hmm okay, I've written that down in my notes, @" + chatter.display_name + "...cool!");
 
         //Whisper 
         if (!emoteLog.whispers.includes(chatter.display_name)) {
-          twitch.say("/w @" + chatter.display_name + " OhISee 📝 check out the notebook at https://ohisee.herokuapp.com/ ...report bugs to @itsMichal! You won't get any more whispers from me.");
-          twitch.say("/w @itsMichal I just messaged " + chatter.display_name + " for the first time! POGGERS");
+          twotchSay("/w @" + chatter.display_name + " OhISee 📝 check out the notebook at https://ohisee.herokuapp.com/ ...report bugs to @itsMichal! You won't get any more whispers from me.");
+          twotchSay("/w @itsMichal I just messaged " + chatter.display_name + " for the first time! POGGERS");
           emoteLog.whispers.push(chatter.display_name);
         } else {
           console.log("STATUS - COULD NOT WHISPER, ON LIST".red);
@@ -980,9 +981,9 @@ twitch.on('message', chatter => {
       }
     } else {
       if (!emoteLog.whispers.includes(chatter.display_name)) {
-        twitch.say("/w @" + chatter.display_name + " OhISee 📝 hmm okay, I've written that down " + chatter.display_name + ", so check out my 📝 at https://ohisee.herokuapp.com/ ...this is a test, so please be gentle. You won't get any more whispers from me (hopefully!)");
+        twotchSay("/w @" + chatter.display_name + " OhISee 📝 hmm okay, I've written that down " + chatter.display_name + ", so check out my 📝 at https://ohisee.herokuapp.com/ ...this is a test, so please be gentle. You won't get any more whispers from me (hopefully!)");
         emoteLog.whispers.push(chatter.display_name);
-        twitch.say("/w @itsMichal I just messaged " + chatter.display_name + " for the first time! POGGERS");
+        twotchSay("/w @itsMichal I just messaged " + chatter.display_name + " for the first time! POGGERS");
         console.log("STATUS - ON TIMEOUT, WHISPERED INFO".magenta);
       } else {
         console.log("STATUS - COULD NOT WHISPER, ON LIST".red);
@@ -1076,3 +1077,42 @@ app.get(['/SGDQ2019.json'], function(req, res) {
   res.send(fs.readFileSync('AGDQ2019.json'));
 });
 app.listen((process.env.PORT || 8000), () => console.log("STATUS - Webserver started listening on 8000...".green));
+
+twitch.on('error', err => {
+  //console.log(err.hasOwnProperty("message"));
+  //console.log(err.message == "Your message was not sent because you are sending messages too quickly");
+  //console.log(lastsentmessage);
+  if(err.hasOwnProperty("message") && err.message == "Your message was not sent because you are sending messages too quickly"){
+    msgqueue.push(lastsentmessage);
+    //console.log(msgqueue);
+    if(msgqueue.length == 1){
+      setTimeout(twotchQueue, 4000);
+    }
+  }
+});
+
+var lastsentmessage = "";
+function twotchSay(message){
+  //console.log("ok")
+  try{
+    twitch.say(message);
+    lastsentmessage = message;
+  }catch(e){
+    console.log(e);
+  }
+}
+
+var msgqueue = [];
+function twotchQueue(){
+  console.log("HOLY MOLY");
+  console.log(msgqueue[0]);
+  try{
+    twitch.say(msgqueue[0]);
+    msgqueue.splice(0,1);
+    if(msgqueue.length!=0){
+      setTimeout(twotchQueue, 4000);
+    }
+  }catch(e){
+    console.log(e);
+  }
+}
