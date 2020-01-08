@@ -764,18 +764,18 @@ twitch.on('message', chatter => {
     //while(onTimeout2)
     if(percent_correct >= 99.99){
       //Pass 
-      twotchSay(("📝 OhISee QUIZ IS OVER! - Answer: "+emoteLog.questions[quizQuestionIndex].answer + " 🎉 SPECTACULAR! (S) 🎉 Everyone got it right! And " + firstright + " was the first to do so! Chat's IQ is now " + newiq + "Q (+"+(newiq-emoteLog.iq)+")."));
+      twotchSay(("📝 OhISee QUIZ IS OVER! - Answer: "+emoteLog.questions[quizQuestionIndex].answer + " 🎉 SPECTACULAR! (S) 🎉 Everyone got it right! And " + firstright + " was the first to do so! Chat's IQ is now " + Math.floor(newiq) + "Q (+"+Math.floor(newiq-emoteLog.iq)+")."));
 
     }else if(percent_correct > 90){
-      twotchSay(("📝 OhISee QUIZ IS OVER! - Answer: "+emoteLog.questions[quizQuestionIndex].answer + "🎓 ASTOUNDING! (A) 🎓 The class got an A! And " + firstright + " was the first to get it right! Chat's IQ is now " + newiq + "Q (+"+(newiq-emoteLog.iq)+")."));
+      twotchSay(("📝 OhISee QUIZ IS OVER! - Answer: "+emoteLog.questions[quizQuestionIndex].answer + "🎓 ASTOUNDING! (A) 🎓 The class got an A! And " + firstright + " was the first to get it right! Chat's IQ is now " + Math.floor(newiq) + "Q (+"+Math.floor(newiq-emoteLog.iq)+")."));
     }else if(percent_correct > 80){
-      twotchSay(("📝 OhISee QUIZ IS OVER! - Answer: "+emoteLog.questions[quizQuestionIndex].answer + "✅ BEAUTIFUL (B) ✅ The class got a B! And " + firstright + " was the first to get it right! Chat's IQ is now " + newiq + "Q (+"+(newiq-emoteLog.iq)+")."));
+      twotchSay(("📝 OhISee QUIZ IS OVER! - Answer: "+emoteLog.questions[quizQuestionIndex].answer + "✅ BEAUTIFUL (B) ✅ The class got a B! And " + firstright + " was the first to get it right! Chat's IQ is now " + Math.floor(newiq) + "Q (+"+Math.floor(newiq-emoteLog.iq)+")."));
     }else if(percent_correct > 70){
-      twotchSay(("📝 OhISee QUIZ IS OVER! - Answer: "+emoteLog.questions[quizQuestionIndex].answer + " 👍 CORRECT (C) 👍 The class got a C! And " + firstright + " was the first to get it right! Chat's IQ is now " + newiq + "Q (+"+(newiq-emoteLog.iq)+")."));
+      twotchSay(("📝 OhISee QUIZ IS OVER! - Answer: "+emoteLog.questions[quizQuestionIndex].answer + " 👍 CORRECT (C) 👍 The class got a C! And " + firstright + " was the first to get it right! Chat's IQ is now " + Math.floor(newiq) + "Q (+"+Math.floor(newiq-emoteLog.iq)+")."));
     }else if(percent_correct > 60){
-      twotchSay(("📝 OhISee QUIZ IS OVER! - Answer: "+emoteLog.questions[quizQuestionIndex].answer + " ➖ DEPRESSING (D) ➖ The class got a D. But " + firstright + " was the first to get it right! Chat's IQ is now " + newiq + "Q (+"+(newiq-emoteLog.iq)+")."));
+      twotchSay(("📝 OhISee QUIZ IS OVER! - Answer: "+emoteLog.questions[quizQuestionIndex].answer + " ➖ DEPRESSING (D) ➖ The class got a D. But " + firstright + " was the first to get it right! Chat's IQ is now " + Math.floor(newiq) + "Q (+"+Math.floor(newiq-emoteLog.iq)+")."));
     }else{
-      twotchSay(("📝 OhISee QUIZ IS OVER! - Answer: "+emoteLog.questions[quizQuestionIndex].answer + " ❌ FAILURE (F) ❌ The class failed. But " + firstright + " was the first to get it right! Chat's IQ is now " + newiq + "Q (+"+(newiq-emoteLog.iq)+")."));
+      twotchSay(("📝 OhISee QUIZ IS OVER! - Answer: "+emoteLog.questions[quizQuestionIndex].answer + " ❌ FAILURE (F) ❌ The class failed. But " + firstright + " was the first to get it right! Chat's IQ is now " + Math.floor(newiq) + "Q (+"+Math.floor(newiq-emoteLog.iq)+")."));
     }
 
     emoteLog.iq = newiq;
