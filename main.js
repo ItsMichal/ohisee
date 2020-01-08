@@ -68,12 +68,26 @@ var emoteLog = {
   "games": {},
   "questions": [],
   "totalcount": 0,
-  "questioncount": 0
+  "questioncount": 0,
+  "iq":0
 };
 
 try {
   
-  emoteLog = JSON.parse(fs.readFileSync('ohIsee.json')); //Uncomment to use file
+  //emoteLog = JSON.parse(fs.readFileSync('ohIsee.json'));
+  /*request({
+    url: "https://www.jsonstore.io/***REMOVED***",
+    method: 'PUT',
+    json: emoteLog
+  }, function(err, resp, body) {
+    console.log(body);
+    if (err) {
+      console.log("ERROR - Problem logging to myjson!".red);
+      console.log(("DETAILS - " + err + " / " + resp + " / " + body).grey);
+    }
+  });*/
+  
+  //Uncomment to use file
   //Historical Bins---
   //request.get("https://api.myjson.com/bins/9p6hk", function(err, resp, body){
   //request.get("https://api.myjson.com/bins/13l6lk", function(err, resp, body) {
@@ -81,7 +95,10 @@ try {
   //---End of Legacy---
 
   //Get the JSON from Myjson because Heroku deletes locally.
-  /*request.get("https://api.myjson.com/bins/v6nrw", function(err,resp,body){
+  request.get(
+    {url:"https://api.jsonbin.io/b/5e15c721b236b871b35e2ef9",
+    headers:{'secret-key':'***REMOVED***'}
+  }, function(err,resp,body){
 
     //Catch errors
     if (err)
@@ -89,7 +106,12 @@ try {
 
     //Get JSON and Parse
     console.log("STATUS - Received JSON file from myjson...".green);
+
+    console.log(body);
+
     emoteLog = JSON.parse(body);
+
+    //console.log(emoteLog);
 
     //Update the game's name
     updateGameName();
@@ -101,9 +123,10 @@ try {
       console.log(("INFO - " + emoteLog.totalcount + " entries in JSON.").gray);
     });
 
-  });*/
+  });
 
 } catch (e) {
+  console.log(e);
   console.log(("STATUS - CREATING JSON FILE"));
 }
 
@@ -857,7 +880,7 @@ twitch.on('message', chatter => {
               }
               if(isans){
                   
-                  question = nlp(question).sentences().prepend("In " + Object.keys(json.games)[subjson.games[0]]+ ", ").out('text');
+                  question = nlp(question).sentences().prepend("In " +emoteLog.games[gameName].name + ", ").out('text');
                   if(question.length < 100 && answer.length < 60 ){
                       //console.log("================================================");
                       //console.log(msg);
@@ -868,10 +891,10 @@ twitch.on('message', chatter => {
 
                       outjson.question = question
                       outjson.answer = answer
-                      outjson.gameid = subjson.games[0];
-                      outjson.user = subjson.users[0];
+                      outjson.gameid = emoteLog.games[gameName].id;
+                      outjson.user = chatter.display_name;
                       outjson.msg = msg;
-                      emoteLog.questions.push(qjson);
+                      emoteLog.questions.push(outjson);
                       emoteLog.questioncount += 1;
                       console.log(("INFO - SOFT QUESTION ADDED").magenta);
 
@@ -959,18 +982,6 @@ twitch.on('message', chatter => {
       msgss++;
     }
 
-    request({
-      url: "https://api.myjson.com/bins/v6nrw",
-      method: 'PUT',
-      json: emoteLog
-    }, function(err, resp, body) {
-      if (err) {
-        console.log("ERROR - Problem logging to myjson!".red);
-        console.log(("DETAILS - " + err + " / " + resp + " / " + body).grey);
-      }
-    });
-
-
 
     fs.writeFile('ohIsee.json', JSON.stringify(emoteLog), 'utf8', err => {
       if (err) throw err;
@@ -980,6 +991,30 @@ twitch.on('message', chatter => {
 
   }
 });
+
+setInterval(jsonStoreBackup,600000);
+
+function jsonStoreBackup(){
+  console.log("BACKUP - BACKED UP TO REMOTE".blue);
+  request({
+    url: "https://api.jsonbin.io/b/5e15c721b236b871b35e2ef9",
+    method: 'PUT',
+    json: emoteLog,
+    headers:{'secret-key':'***REMOVED***', 'versioning':'false'}
+  }, function(err, resp, body) {
+    console.log(body);
+    if (err) {
+      console.log("ERROR - Problem logging to myjson!".red);
+      console.log(("DETAILS - " + err + " / " + resp + " / " + body).grey);
+    }
+  });
+  
+  fs.writeFile('ohIsee.json', JSON.stringify(emoteLog), 'utf8', err => {
+    if (err) throw err;
+    console.log("STATUS - JSON updated!".blue);
+    console.log(("INFO - " + emoteLog.totalcount + " entries in JSON.").gray);
+  });
+}
 
 function timeoutReset() {
   onTimeout = false;

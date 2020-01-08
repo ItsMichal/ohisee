@@ -18,7 +18,9 @@
   html {
     font-size: 1rem;
   }
-
+  body{
+    font-family: Indie Flower;
+  }
   @include media-breakpoint-up(sm) {
     html {
       font-size: 1.2rem;
@@ -42,8 +44,8 @@
   }
 
   #resp{
-    color: cornflowerblue;
-
+    color: #000055;
+    
   }
 
   hr {
@@ -74,7 +76,7 @@
   <script>
     function getJSONFromFile(cb) {
       var req = new XMLHttpRequest();
-      req.open('GET', 'http://ohisee.herokuapp.com/ohIsee.json');
+      req.open('GET', 'ohIsee.json');
       req.responeType = 'json';
       req.send();
       var tempjson = {};
