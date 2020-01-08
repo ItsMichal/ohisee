@@ -785,7 +785,7 @@ twitch.on('message', chatter => {
     }else if(percent_correct > 60){
       twotchSay(("📝 OhISee QUIZ IS OVER! - Answer: "+emoteLog.questions[quizQuestionIndex].answer + " ➖ DEPRESSING (D) ➖ The class got a D. But " + firstright + " was the first to get it right! Chat's IQ is now " + Math.floor(newiq) + "Q (+"+Math.floor(newiq-emoteLog.iq)+")."));
     }else{
-      twotchSay(("📝 OhISee QUIZ IS OVER! - Answer: "+emoteLog.questions[quizQuestionIndex].answer + " ❌ FAILURE (F) ❌ The class failed. But " + firstright + " was the first to get it right! Chat's IQ is now " + Math.floor(newiq) + "Q (+"+Math.floor(newiq-emoteLog.iq)+")."));
+      twotchSay(("📝 OhISee QUIZ IS OVER! - Answer: "+emoteLog.questions[quizQuestionIndex].answer + " ❌ FAILURE (F) ❌ The class failed. But " + firstright + " was the first to get it right! Chat's IQ is now " + Math.floor(newiq) + "Q ("+Math.floor(newiq-emoteLog.iq)+")."));
     }
 
     emoteLog.iq = newiq;
