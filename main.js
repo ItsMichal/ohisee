@@ -795,7 +795,7 @@ twitch.on('message', chatter => {
 
   function quizWarning(){
     console.log("QUIZ - Warning given!".yellow);
-    twitch.say(("📝 OhISee 👉 ⏰ 10 seconds remaining in the quiz! Get your tests in!"), err => {
+    twitch.say(("📝 OhISee 👉 ⏰ 10 seconds remaining in the quiz! Get your tests in!"), [process.env.CHANNEL], err => {
       console.log(err);
     });
   }
