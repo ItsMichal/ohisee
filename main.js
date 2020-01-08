@@ -562,7 +562,7 @@ twitch.on('message', chatter => {
     sensitivity: 'base'
   })==0 && chatter.display_name != "OhISeeBOT" && (!onTimeout2)){
     if(!onTimeoutQ){
-
+      onTimeout2 = true;
       console.log("EVENT - QUIZ STARTED".magenta);
 
       //Start Quiz!
@@ -753,13 +753,15 @@ twitch.on('message', chatter => {
       num_correct = choice4cnt;
     }
 
+    
+
     console.log("QUIZ- Quiz is over!".red);
     //Announce results, start timer until next quiz can be given.
     var percent_correct = Math.floor((num_correct / (choice1cnt+choice2cnt+choice3cnt+choice4cnt))*10000)/100;
 
     var newiq = (1+((percent_correct-60)/200))*emoteLog.iq;
 
-    while(onTimeout2)
+    //while(onTimeout2)
     if(percent_correct >= 99.99){
       //Pass 
       twitch.say(("📝 OhISee QUIZ IS OVER! - Answer: "+emoteLog.questions[quizQuestionIndex].answer + " 🎉 SPECTACULAR! (S) 🎉 Everyone got it right! And " + firstright + " was the first to do so! Chat's IQ is now " + newiq + "Q (+"+(newiq-emoteLog.iq)+")."));
@@ -787,6 +789,8 @@ twitch.on('message', chatter => {
     firstright = "";
     quizzers = [];
     quizQuestionIndex = 0;
+
+    setTimeout(timeoutReset2, timeout2);
   }
 
   function quizWarning(){
