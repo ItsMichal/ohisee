@@ -633,10 +633,10 @@ twitch.on('message', chatter => {
       //Set timeout
       onTimeoutQ = true;
       //start timer for quiz
-      setTimeout(timeoutResetQ, quizlength+timeoutQ);
+      setTimeout(timeoutResetQ, quizlength);
     }else{
       //Give error message
-      twotchSay(("📝 OhISee We just gave a quiz! Please wait " + timeoutQ/1000 + " seconds between quizzes!"));
+      twotchSay(("📝 OhISee We are in the middle of a quiz!"));
     }
   }
 
@@ -648,7 +648,8 @@ twitch.on('message', chatter => {
     || chatter.message.split(' ')[1] == "3"
     || chatter.message.split(' ')[1] == "3"
   )
-  && chatter.message.split(' ')[0].indexOf("ISee") > -1){
+  && chatter.message.split(' ')[0].indexOf("ISee") > -1
+  && onTimeoutQ){
 
     
 
