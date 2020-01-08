@@ -50,7 +50,7 @@ function filterString(initString){
 var timeout = 960000;
 var timeout2 = 19000;
 var timeoutQ = 30000;
-var quizlength = 40000;
+var quizlength = 60000;
 
 
 //Twitch Section
