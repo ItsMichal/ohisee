@@ -832,7 +832,7 @@ twitch.on('message', chatter => {
       var msg = fullmsg;
       //NLP for Quiz
       var questionadded = false;
-      if(nlp(msg).sentences().length > 0){
+      if(msg.match(/(.*[a-z]){3}/i).length > 0 && nlp(msg).sentences().length > 0){
         //Strict Question
         if(nlp(msg).sentences().length > 0 
         && nlp(msg).sentences().isQuestion().out('array').length > 0 
