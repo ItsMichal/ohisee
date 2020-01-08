@@ -759,6 +759,7 @@ twitch.on('message', chatter => {
 
     var newiq = (1+((percent_correct-60)/200))*emoteLog.iq;
 
+    while(onTimeout2)
     if(percent_correct >= 99.99){
       //Pass 
       twitch.say(("📝 OhISee QUIZ IS OVER! - Answer: "+emoteLog.questions[quizQuestionIndex].answer + " 🎉 SPECTACULAR! (S) 🎉 Everyone got it right! And " + firstright + " was the first to do so! Chat's IQ is now " + newiq + "Q (+"+(newiq-emoteLog.iq)+")."));
@@ -790,7 +791,9 @@ twitch.on('message', chatter => {
 
   function quizWarning(){
     console.log("QUIZ - Warning given!".yellow);
-    twitch.say(("📝 OhISee 👉 ⏰ 10 seconds remaining in the quiz! Get your tests in!"));
+    twitch.say(("📝 OhISee 👉 ⏰ 10 seconds remaining in the quiz! Get your tests in!"), err => {
+      console.log(err);
+    });
   }
 
   //Detect 
