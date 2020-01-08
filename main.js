@@ -684,8 +684,8 @@ twitch.on('message', chatter => {
           //No create
           emoteLog.Notetakers[quizzer] = {
             "notecount": 1,
-            "noteids": [Object.keys(emoteLog.OhISee).indexOf(fullmsg.toLowerCase())],
-            "games": [emoteLog.games[gameName].id],
+            "noteids": [],
+            "games": [],
             "qcor": 1,
             "qfal": 0
           };
@@ -714,8 +714,8 @@ twitch.on('message', chatter => {
           //No create
           emoteLog.Notetakers[quizzer] = {
             "notecount": 1,
-            "noteids": [Object.keys(emoteLog.OhISee).indexOf(fullmsg.toLowerCase())],
-            "games": [emoteLog.games[gameName].id],
+            "noteids": [],
+            "games": [],
             "qcor": 0,
             "qfal": 1
           };
