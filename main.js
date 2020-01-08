@@ -565,15 +565,7 @@ twitch.on('message', chatter => {
       onTimeout2 = true;
       console.log("EVENT - QUIZ STARTED".magenta);
 
-      //Reset quiz vars
-    choice1cnt = 0;
-    choice2cnt = 0;
-    choice3cnt = 0;
-    choice4cnt = 0;
-    rightanswer = 0;
-    firstright = "";
-    quizzers = [];
-    quizQuestionIndex = 0;
+     
 
       //Start Quiz!
       setTimeout(quizEnd, quizlength);
@@ -794,7 +786,15 @@ twitch.on('message', chatter => {
 
     emoteLog.iq = newiq;
 
-    
+     //Reset quiz vars
+     choice1cnt = 0;
+     choice2cnt = 0;
+     choice3cnt = 0;
+     choice4cnt = 0;
+     rightanswer = 0;
+     firstright = "";
+     quizzers = [];
+     quizQuestionIndex = 0;
 
     setTimeout(timeoutReset2, timeout2);
   }
@@ -874,7 +874,8 @@ twitch.on('message', chatter => {
                       
                       //console.log("HEY");
                       if(textjson[sent].terms[term].tags[tag] == "Copula" 
-                      && textjson[sent].subject.text.toLowerCase().indexOf('i') == -1 
+                      && (!textjson[sent].hasOwnProperty("subject")
+                      || textjson[sent].subject.text.toLowerCase().indexOf('i') == -1) 
                       && textjson[sent].text.toLowerCase().indexOf('he') == -1
                       && textjson[sent].text.toLowerCase().indexOf('she') == -1
                       && textjson[sent].text.toLowerCase().indexOf('they') == -1
