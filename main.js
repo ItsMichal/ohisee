@@ -1002,7 +1002,7 @@ function jsonStoreBackup(){
     json: emoteLog,
     headers:{'secret-key':'***REMOVED***', 'versioning':'false'}
   }, function(err, resp, body) {
-    console.log(body);
+    //console.log(body);
     if (err) {
       console.log("ERROR - Problem logging to myjson!".red);
       console.log(("DETAILS - " + err + " / " + resp + " / " + body).grey);
