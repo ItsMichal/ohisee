@@ -565,6 +565,16 @@ twitch.on('message', chatter => {
       onTimeout2 = true;
       console.log("EVENT - QUIZ STARTED".magenta);
 
+      //Reset quiz vars
+    choice1cnt = 0;
+    choice2cnt = 0;
+    choice3cnt = 0;
+    choice4cnt = 0;
+    rightanswer = 0;
+    firstright = "";
+    quizzers = [];
+    quizQuestionIndex = 0;
+
       //Start Quiz!
       setTimeout(quizEnd, quizlength);
       setTimeout(quizWarning, quizlength-10000);
@@ -780,15 +790,7 @@ twitch.on('message', chatter => {
 
     emoteLog.iq = newiq;
 
-    //Reset quiz vars
-    choice1cnt = 0;
-    choice2cnt = 0;
-    choice3cnt = 0;
-    choice4cnt = 0;
-    rightanswer = 0;
-    firstright = "";
-    quizzers = [];
-    quizQuestionIndex = 0;
+    
 
     setTimeout(timeoutReset2, timeout2);
   }
