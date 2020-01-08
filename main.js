@@ -57,7 +57,7 @@ var quizlength = 40000;
 var twitch = new TwitchBot({
   username: 'ohiseebot',
   oauth: '***REMOVED***', //TODO: Switch to env var
-  channels: ['itsMichal']//[process.env.CHANNEL]
+  channels: [process.env.CHANNEL]
 });
 
 //Basic Structure of the Log
