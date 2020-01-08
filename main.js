@@ -874,7 +874,7 @@ twitch.on('message', chatter => {
                       
                       //console.log("HEY");
                       if(textjson[sent].terms[term].tags[tag] == "Copula" 
-                      && (!textjson[sent].hasOwnProperty("subject")
+                      && (textjson[sent].subject === undefined
                       || textjson[sent].subject.text.toLowerCase().indexOf('i') == -1) 
                       && textjson[sent].text.toLowerCase().indexOf(' he') == -1
                       && textjson[sent].text.toLowerCase().indexOf(' she') == -1
