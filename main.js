@@ -942,70 +942,7 @@ twitch.on('message', chatter => {
 
 
   }
-  //Quiz finish
-  function quizEnd(){
-    var num_correct = 0;
-    //Get correct
-    if(rightanswer == 0){
-      num_correct = choice1cnt;
-    }else if(rightanswer == 1){
-      num_correct = choice2cnt;
-    }else if(rightanswer == 2){
-      num_correct = choice3cnt;
-    }else{
-      num_correct = choice4cnt;
-    }
-
-    
-
-    console.log("QUIZ- Quiz is over!".red);
-    //Announce results, start timer until next quiz can be given.
-    var percent_correct = Math.floor((num_correct / (choice1cnt+choice2cnt+choice3cnt+choice4cnt))*10000)/100;
-
-    var newiq = (1+((percent_correct-60)/200))*emoteLog.iq;
-
-    if(firstright == ""){
-      firstright = "no one"
-    }
-    //while(onTimeout2)
-    if(percent_correct >= 99.99){
-      //Pass 
-      twotchSay(("📝 OhISee QUIZ IS OVER! - Answer: "+emoteLog.questions[quizQuestionIndex].answer + " 🎉 SPECTACULAR! (S) 🎉 Everyone got it right! And " + firstright + " was the first to do so! Chat's IQ is now " + Math.floor(newiq) + "Q (+"+Math.floor(newiq-emoteLog.iq)+")."));
-
-    }else if(percent_correct > 90){
-      twotchSay(("📝 OhISee QUIZ IS OVER! - Answer: "+emoteLog.questions[quizQuestionIndex].answer + "🎓 ASTOUNDING! (A) 🎓 The class got an A! And " + firstright + " was the first to get it right! Chat's IQ is now " + Math.floor(newiq) + "Q (+"+Math.floor(newiq-emoteLog.iq)+")."));
-    }else if(percent_correct > 80){
-      twotchSay(("📝 OhISee QUIZ IS OVER! - Answer: "+emoteLog.questions[quizQuestionIndex].answer + "✅ BEAUTIFUL (B) ✅ The class got a B! And " + firstright + " was the first to get it right! Chat's IQ is now " + Math.floor(newiq) + "Q (+"+Math.floor(newiq-emoteLog.iq)+")."));
-    }else if(percent_correct > 70){
-      twotchSay(("📝 OhISee QUIZ IS OVER! - Answer: "+emoteLog.questions[quizQuestionIndex].answer + " 👍 CORRECT (C) 👍 The class got a C! And " + firstright + " was the first to get it right! Chat's IQ is now " + Math.floor(newiq) + "Q (+"+Math.floor(newiq-emoteLog.iq)+")."));
-    }else if(percent_correct > 60){
-      twotchSay(("📝 OhISee QUIZ IS OVER! - Answer: "+emoteLog.questions[quizQuestionIndex].answer + " ➖ DEPRESSING (D) ➖ The class got a D. But " + firstright + " was the first to get it right! Chat's IQ is now " + Math.floor(newiq) + "Q (+"+Math.floor(newiq-emoteLog.iq)+")."));
-    }else{
-      twotchSay(("📝 OhISee QUIZ IS OVER! - Answer: "+emoteLog.questions[quizQuestionIndex].answer + " ❌ FAILURE (F) ❌ The class failed. But " + firstright + " was the first to get it right! Chat's IQ is now " + Math.floor(newiq) + "Q ("+Math.floor(newiq-emoteLog.iq)+")."));
-    }
-
-    emoteLog.iq = newiq;
-
-     //Reset quiz vars
-     choice1cnt = 0;
-     choice2cnt = 0;
-     choice3cnt = 0;
-     choice4cnt = 0;
-     rightanswer = 0;
-     firstright = "";
-     quizzers = [];
-     quizQuestionIndex = 0;
-
-    setTimeout(timeoutReset2, timeout2);
-    setTimeout(timeoutResetBQ, timeoutBQ);
-  }
-
-  function quizWarning(){
-    console.log("QUIZ - Warning given!".yellow);
-    twotchSay(("📝 OhISee 👉 ⏰ 10 seconds remaining in the quiz! Get your tests in!"), [process.env.CHANNEL], err => {
-      console.log(err);
-    });
-  }
+  
 
 
   //Detect 
@@ -1415,3 +1352,68 @@ function autoQuizzer(){
 var initPopQuiz = (Math.floor(60000*(Math.random()*10)) + 60000);
 console.log("PQUIZ - Set at " + initPopQuiz/1000 + " seconds.");
 setTimeout(autoQuizzer, initPopQuiz);
+
+//Quiz finish
+function quizEnd(){
+  var num_correct = 0;
+  //Get correct
+  if(rightanswer == 0){
+    num_correct = choice1cnt;
+  }else if(rightanswer == 1){
+    num_correct = choice2cnt;
+  }else if(rightanswer == 2){
+    num_correct = choice3cnt;
+  }else{
+    num_correct = choice4cnt;
+  }
+
+  
+
+  console.log("QUIZ- Quiz is over!".red);
+  //Announce results, start timer until next quiz can be given.
+  var percent_correct = Math.floor((num_correct / (choice1cnt+choice2cnt+choice3cnt+choice4cnt))*10000)/100;
+
+  var newiq = (1+((percent_correct-60)/200))*emoteLog.iq;
+
+  if(firstright == ""){
+    firstright = "no one"
+  }
+  //while(onTimeout2)
+  if(percent_correct >= 99.99){
+    //Pass 
+    twotchSay(("📝 OhISee QUIZ IS OVER! - Answer: "+emoteLog.questions[quizQuestionIndex].answer + " 🎉 SPECTACULAR! (S) 🎉 Everyone got it right! And " + firstright + " was the first to do so! Chat's IQ is now " + Math.floor(newiq) + "Q (+"+Math.floor(newiq-emoteLog.iq)+")."));
+
+  }else if(percent_correct > 90){
+    twotchSay(("📝 OhISee QUIZ IS OVER! - Answer: "+emoteLog.questions[quizQuestionIndex].answer + "🎓 ASTOUNDING! (A) 🎓 The class got an A! And " + firstright + " was the first to get it right! Chat's IQ is now " + Math.floor(newiq) + "Q (+"+Math.floor(newiq-emoteLog.iq)+")."));
+  }else if(percent_correct > 80){
+    twotchSay(("📝 OhISee QUIZ IS OVER! - Answer: "+emoteLog.questions[quizQuestionIndex].answer + "✅ BEAUTIFUL (B) ✅ The class got a B! And " + firstright + " was the first to get it right! Chat's IQ is now " + Math.floor(newiq) + "Q (+"+Math.floor(newiq-emoteLog.iq)+")."));
+  }else if(percent_correct > 70){
+    twotchSay(("📝 OhISee QUIZ IS OVER! - Answer: "+emoteLog.questions[quizQuestionIndex].answer + " 👍 CORRECT (C) 👍 The class got a C! And " + firstright + " was the first to get it right! Chat's IQ is now " + Math.floor(newiq) + "Q (+"+Math.floor(newiq-emoteLog.iq)+")."));
+  }else if(percent_correct > 60){
+    twotchSay(("📝 OhISee QUIZ IS OVER! - Answer: "+emoteLog.questions[quizQuestionIndex].answer + " ➖ DEPRESSING (D) ➖ The class got a D. But " + firstright + " was the first to get it right! Chat's IQ is now " + Math.floor(newiq) + "Q (+"+Math.floor(newiq-emoteLog.iq)+")."));
+  }else{
+    twotchSay(("📝 OhISee QUIZ IS OVER! - Answer: "+emoteLog.questions[quizQuestionIndex].answer + " ❌ FAILURE (F) ❌ The class failed. But " + firstright + " was the first to get it right! Chat's IQ is now " + Math.floor(newiq) + "Q ("+Math.floor(newiq-emoteLog.iq)+")."));
+  }
+
+  emoteLog.iq = newiq;
+
+   //Reset quiz vars
+   choice1cnt = 0;
+   choice2cnt = 0;
+   choice3cnt = 0;
+   choice4cnt = 0;
+   rightanswer = 0;
+   firstright = "";
+   quizzers = [];
+   quizQuestionIndex = 0;
+
+  setTimeout(timeoutReset2, timeout2);
+  setTimeout(timeoutResetBQ, timeoutBQ);
+}
+
+function quizWarning(){
+  console.log("QUIZ - Warning given!".yellow);
+  twotchSay(("📝 OhISee 👉 ⏰ 10 seconds remaining in the quiz! Get your tests in!"), [process.env.CHANNEL], err => {
+    console.log(err);
+  });
+}
