@@ -97,7 +97,7 @@ try {
 
   //Get the JSON from Myjson because Heroku deletes locally.
   request.get(
-    {url:"https://api.jsonbin.io/b/5e16be89b236b871b35ea60f",
+    {url:"https://api.jsonbin.io/b/5e16f4e5b236b871b35eb74f",
     headers:{'secret-key':'***REMOVED***'}
   }, function(err,resp,body){
 
@@ -1158,7 +1158,7 @@ setInterval(jsonStoreBackup,120000);
 function jsonStoreBackup(){
   console.log("BACKUP - BACKED UP TO REMOTE".blue);
   request({
-    url: "https://api.jsonbin.io/b/5e16be89b236b871b35ea60f",
+    url: "https://api.jsonbin.io/b/5e16f4e5b236b871b35eb74f",
     method: 'PUT',
     json: emoteLog,
     headers:{'secret-key':'***REMOVED***', 'versioning':'false'}
@@ -1373,7 +1373,7 @@ function quizEnd(){
   //Announce results, start timer until next quiz can be given.
   var percent_correct = Math.floor((num_correct / (choice1cnt+choice2cnt+choice3cnt+choice4cnt))*10000)/100;
 
-  var newiq = (1+((percent_correct-60)/200))*emoteLog.iq;
+  var newiq = ((1+((percent_correct-60)/200))*150)*emoteLog.iq;
 
   if(firstright == ""){
     firstright = "no one"
