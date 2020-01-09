@@ -832,99 +832,102 @@ twitch.on('message', chatter => {
       var msg = fullmsg;
       //NLP for Quiz
       var questionadded = false;
-      if(msg.match(/(.*[a-z]){3}/i).length > 0 && nlp(msg).sentences().length > 0){
-        //Strict Question
-        if(nlp(msg).sentences().length > 0 
-        && nlp(msg).sentences().isQuestion().out('array').length > 0 
-        && nlp(msg).sentences().isStatement().out('array').length > 0
-        && nlp(msg).sentences().isQuestion().out('array')[0] +" "+ nlp(msg).sentences().isStatement().out('array')[0] + " " == msg
-        ){
-          console.log(("INFO - STRICT QUESTION FOUND").magenta);
+      try {
+        if(msg.match(/(.*[a-z]){3}/i).length > 0 && nlp(msg).sentences().length > 0){
+          //Strict Question
+          if(nlp(msg).sentences().length > 0 
+          && nlp(msg).sentences().isQuestion().out('array').length > 0 
+          && nlp(msg).sentences().isStatement().out('array').length > 0
+          && nlp(msg).sentences().isQuestion().out('array')[0] +" "+ nlp(msg).sentences().isStatement().out('array')[0] + " " == msg
+          ){
+            console.log(("INFO - STRICT QUESTION FOUND").magenta);
 
-          var question = nlp(msg).sentences().isQuestion().out('array')[0];
-          var answer = nlp(msg).sentences().isStatement().out('array')[0];
-          var qjson = {"question":"", "answer":"", "cor":0, "fal":0, "gameid":0, "user":0, "usage":0, "msg":""};
-          qjson.question = question;
-          qjson.answer = answer;
-          qjson.user = chatter.display_name;
-          qjson.gameid = emoteLog.games[gameName].id;
-          qjson.msg = msg; 
-          emoteLog.questions.push(qjson);
-          emoteLog.questioncount += 1;
+            var question = nlp(msg).sentences().isQuestion().out('array')[0];
+            var answer = nlp(msg).sentences().isStatement().out('array')[0];
+            var qjson = {"question":"", "answer":"", "cor":0, "fal":0, "gameid":0, "user":0, "usage":0, "msg":""};
+            qjson.question = question;
+            qjson.answer = answer;
+            qjson.user = chatter.display_name;
+            qjson.gameid = emoteLog.games[gameName].id;
+            qjson.msg = msg; 
+            emoteLog.questions.push(qjson);
+            emoteLog.questioncount += 1;
 
-          questionadded = true;
-        }else{
-          //Soft Question Check
+            questionadded = true;
+          }else{
+            //Soft Question Check
 
-          var textjson = nlp(msg).sentences().json();
-          //console.log(textjson);
-          for(var sent in textjson){
-              var outjson = {"question":"", "answer":"", "cor":0, "fal":0, "gameid":0, "user":0, "usage":0, "msg":msg}
-              var spli = 0;
-              var isans = false;
-              var question = "";
-              var answer = "";
-             
-              if(nlp(textjson[sent].text).sentences().isQuestion().out('array').length == 0)
-              for(var term in (textjson[sent].terms)){
-                  
-                  var notis = true;
+            var textjson = nlp(msg).sentences().json();
+            //console.log(textjson);
+            for(var sent in textjson){
+                var outjson = {"question":"", "answer":"", "cor":0, "fal":0, "gameid":0, "user":0, "usage":0, "msg":msg}
+                var spli = 0;
+                var isans = false;
+                var question = "";
+                var answer = "";
+              
+                if(nlp(textjson[sent].text).sentences().isQuestion().out('array').length == 0)
+                for(var term in (textjson[sent].terms)){
+                    
+                    var notis = true;
 
-                  for(var tag in textjson[sent].terms[term].tags){
-                      
-                      //console.log("HEY");
-                      if(textjson[sent].terms[term].tags[tag] == "Copula" 
-                      && (textjson[sent].subject === undefined
-                      || textjson[sent].subject.text.toLowerCase().indexOf('i') == -1) 
-                      && textjson[sent].text.toLowerCase().indexOf(' he') == -1
-                      && textjson[sent].text.toLowerCase().indexOf(' she') == -1
-                      && textjson[sent].text.toLowerCase().indexOf('they') == -1
-                      
-                      ){
-                          isans =true;
-                          notis = false;
-                          //console.log(textjson[sent].terms);
-                          
-                          question = nlp(question).sentences().append(textjson[sent].terms[term].text).out('text');
-                          break;
-                      }
-                  }
-                  if(notis){
-                      if(isans){
-                          answer += textjson[sent].terms[term].text + " ";
-                      }else{
-                          question += textjson[sent].terms[term].text + " ";
-                      } 
-                  }
-              }
-              if(isans){
-                  
-                  question = nlp(question).sentences().prepend("In " +emoteLog.games[gameName].name + ", ").out('text');
-                  if(question.length < 100 && answer.length < 60 ){
-                      //console.log("================================================");
-                      //console.log(msg);
-                      //console.log("------------------------------------------------");
-                      
-                      //console.log(question);
-                      //console.log(answer);
+                    for(var tag in textjson[sent].terms[term].tags){
+                        
+                        //console.log("HEY");
+                        if(textjson[sent].terms[term].tags[tag] == "Copula" 
+                        && (textjson[sent].subject === undefined
+                        || textjson[sent].subject.text.toLowerCase().indexOf('i') == -1) 
+                        && textjson[sent].text.toLowerCase().indexOf(' he') == -1
+                        && textjson[sent].text.toLowerCase().indexOf(' she') == -1
+                        && textjson[sent].text.toLowerCase().indexOf('they') == -1
+                        
+                        ){
+                            isans =true;
+                            notis = false;
+                            //console.log(textjson[sent].terms);
+                            
+                            question = nlp(question).sentences().append(textjson[sent].terms[term].text).out('text');
+                            break;
+                        }
+                    }
+                    if(notis){
+                        if(isans){
+                            answer += textjson[sent].terms[term].text + " ";
+                        }else{
+                            question += textjson[sent].terms[term].text + " ";
+                        } 
+                    }
+                }
+                if(isans){
+                    
+                    question = nlp(question).sentences().prepend("In " +emoteLog.games[gameName].name + ", ").out('text');
+                    if(question.length < 100 && answer.length < 60 ){
+                        //console.log("================================================");
+                        //console.log(msg);
+                        //console.log("------------------------------------------------");
+                        
+                        //console.log(question);
+                        //console.log(answer);
 
-                      outjson.question = question
-                      outjson.answer = answer
-                      outjson.gameid = emoteLog.games[gameName].id;
-                      outjson.user = chatter.display_name;
-                      outjson.msg = msg;
-                      emoteLog.questions.push(outjson);
-                      emoteLog.questioncount += 1;
-                      console.log(("INFO - SOFT QUESTION ADDED").magenta);
+                        outjson.question = question
+                        outjson.answer = answer
+                        outjson.gameid = emoteLog.games[gameName].id;
+                        outjson.user = chatter.display_name;
+                        outjson.msg = msg;
+                        emoteLog.questions.push(outjson);
+                        emoteLog.questioncount += 1;
+                        console.log(("INFO - SOFT QUESTION ADDED").magenta);
 
-                      questionadded = true;
-                  }
-              }
+                        questionadded = true;
+                    }
+                }
+            }
+
           }
-
         }
+      }catch(e){
+        console.log("ERROR - Parsing msg for question.".red);
       }
-
       emoteLog.OhISee[fullmsg.toLowerCase()] = {
         "text": fullmsg,
         "times": 1,
