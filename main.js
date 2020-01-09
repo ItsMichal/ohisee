@@ -704,7 +704,7 @@ twitch.on('message', chatter => {
             var thing = emoteLog.Notetakers[ntkr];
             //If exists qcor/qfal, better ratio, + at least 10 quizzes, derank
             if ((thing.hasOwnProperty("qcor") && thing.hasOwnProperty("qfal")) 
-            && (thing.qcor / (thing.qcor +thing.qfal)) > cnt 
+            && (thing.qcor / (thing.qcor +thing.qfal))*100 > cnt 
             && (thing.qcor+thing.qfal) >= 10) {
               rank++
             }
