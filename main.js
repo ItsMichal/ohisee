@@ -48,7 +48,7 @@ function filterString(initString){
 //Config 
 
 var timeout = 960000;
-var timeout2 = 19000;
+var timeout2 = 10000;
 var timeoutQ = 30000;
 var timeoutBQ = 45000;
 var quizlength = 60000;
