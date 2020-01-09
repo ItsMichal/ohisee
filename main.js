@@ -217,7 +217,7 @@ twitch.on('part', channel => {
 console.log("STATUS - OhISee Bot Started...".green);
 
 //Set a delay on the initial online message to give time to connect to server, etc.
-setTimeout(onlineMessage, 5000);
+//setTimeout(onlineMessage, 5000);
 
 //The current channel
 var currentchannel = '';
@@ -655,7 +655,7 @@ twitch.on('message', chatter => {
             var thing = emoteLog.Notetakers[ntkr];
             //If exists qcor/qfal, better ratio, + at least 10 quizzes, derank
             if ((thing.hasOwnProperty("qcor") && thing.hasOwnProperty("qfal")) 
-            && (thing.qcor / thing.qfal) > cnt && (thing.qcor+thing.qfal) >= 10) {
+            && (thing.qcor / (thing.qcor+ thing.qfal)*100) > cnt && (thing.qcor+thing.qfal) >= 10) {
               rank++
             }
           }
