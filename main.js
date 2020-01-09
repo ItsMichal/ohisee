@@ -663,10 +663,10 @@ twitch.on('message', chatter => {
         choice = 0;
         choice1cnt += 1;
       }else if(chatter.message.split(' ')[1] == "2"){
-        choice = 0;
+        choice = 1;
         choice2cnt += 1;
       }else if(chatter.message.split(' ')[1] == "3"){
-        choice = 0;
+        choice = 2;
         choice3cnt += 1;
       }else{
         choice4cnt += 1;
@@ -675,7 +675,7 @@ twitch.on('message', chatter => {
       //Check if right
       if(choice == rightanswer){
         emoteLog.questions[quizQuestionIndex].cor += 1;
-        console.log(("QUIZ - PARSED RESPONSE!").green);
+        
         //Correct
         if(firstright == ""){
           //First
@@ -685,8 +685,9 @@ twitch.on('message', chatter => {
         //Check if exists as notetaker
         if (!emoteLog.Notetakers.hasOwnProperty(quizzer)){
           //No create
+          console.log(("QUIZ - PARSED RESPONSE (CORRECT/CREATED USER)!").green);
           emoteLog.Notetakers[quizzer] = {
-            "notecount": 1,
+            "notecount": 0,
             "noteids": [],
             "games": [],
             "qcor": 1,
@@ -697,10 +698,12 @@ twitch.on('message', chatter => {
           //Legacy check to see if qcor or qfal exist
           if(!emoteLog.Notetakers[quizzer].hasOwnProperty("qcor") || !emoteLog.Notetakers[quizzer].hasOwnProperty("qfal")){
             //Don't exist 
+            console.log(("QUIZ - PARSED RESPONSE (CORRECT/CREATED CORS)!").green);
             emoteLog.Notetakers[quizzer].qcor = 1;
             emoteLog.Notetakers[quizzer].qfal = 0;
 
           }else{
+            console.log(("QUIZ - PARSED RESPONSE (CORRECT)!").green);
             emoteLog.Notetakers[quizzer].qcor += 1;
           }
 
@@ -711,12 +714,13 @@ twitch.on('message', chatter => {
         emoteLog.questions[quizQuestionIndex].fal += 1;
 
         //Wrong
-        console.log(("QUIZ - PARSED RESPONSE!").red);
+        
         //Check if exists as Notetaker
         if (!emoteLog.Notetakers.hasOwnProperty(quizzer)){
           //No create
+          console.log(("QUIZ - PARSED RESPONSE (FALSE/CREATED USER)!").red);
           emoteLog.Notetakers[quizzer] = {
-            "notecount": 1,
+            "notecount": 0,
             "noteids": [],
             "games": [],
             "qcor": 0,
@@ -727,10 +731,12 @@ twitch.on('message', chatter => {
           //Legacy check to see if qcor or qfal exist
           if(!emoteLog.Notetakers[quizzer].hasOwnProperty("qcor") || !emoteLog.Notetakers[quizzer].hasOwnProperty("qfal")){
             //Don't exist 
+            console.log(("QUIZ - PARSED RESPONSE (FALSE/CREATED Qs)!").red);
             emoteLog.Notetakers[quizzer].qcor = 0;
             emoteLog.Notetakers[quizzer].qfal = 1;
 
           }else{
+            console.log(("QUIZ - PARSED RESPONSE (FALSE)!").red);
             emoteLog.Notetakers[quizzer].qfal += 1;
           }
 
@@ -770,18 +776,18 @@ twitch.on('message', chatter => {
     //while(onTimeout2)
     if(percent_correct >= 99.99){
       //Pass 
-      twotchSay(("📝 OhISee QUIZ IS OVER! - Answer: "+emoteLog.questions[quizQuestionIndex].answer + " 🎉 SPECTACULAR! (S) 🎉 Everyone got it right! And " + "someone" + " was the first to do so! Chat's IQ is now " + Math.floor(newiq) + "Q (+"+Math.floor(newiq-emoteLog.iq)+")."));
+      twotchSay(("📝 OhISee QUIZ IS OVER! - Answer: "+emoteLog.questions[quizQuestionIndex].answer + " 🎉 SPECTACULAR! (S) 🎉 Everyone got it right! And " + firstright + " was the first to do so! Chat's IQ is now " + Math.floor(newiq) + "Q (+"+Math.floor(newiq-emoteLog.iq)+")."));
 
     }else if(percent_correct > 90){
-      twotchSay(("📝 OhISee QUIZ IS OVER! - Answer: "+emoteLog.questions[quizQuestionIndex].answer + "🎓 ASTOUNDING! (A) 🎓 The class got an A! And " + "someone" + " was the first to get it right! Chat's IQ is now " + Math.floor(newiq) + "Q (+"+Math.floor(newiq-emoteLog.iq)+")."));
+      twotchSay(("📝 OhISee QUIZ IS OVER! - Answer: "+emoteLog.questions[quizQuestionIndex].answer + "🎓 ASTOUNDING! (A) 🎓 The class got an A! And " + firstright + " was the first to get it right! Chat's IQ is now " + Math.floor(newiq) + "Q (+"+Math.floor(newiq-emoteLog.iq)+")."));
     }else if(percent_correct > 80){
-      twotchSay(("📝 OhISee QUIZ IS OVER! - Answer: "+emoteLog.questions[quizQuestionIndex].answer + "✅ BEAUTIFUL (B) ✅ The class got a B! And " + "someone" + " was the first to get it right! Chat's IQ is now " + Math.floor(newiq) + "Q (+"+Math.floor(newiq-emoteLog.iq)+")."));
+      twotchSay(("📝 OhISee QUIZ IS OVER! - Answer: "+emoteLog.questions[quizQuestionIndex].answer + "✅ BEAUTIFUL (B) ✅ The class got a B! And " + firstright + " was the first to get it right! Chat's IQ is now " + Math.floor(newiq) + "Q (+"+Math.floor(newiq-emoteLog.iq)+")."));
     }else if(percent_correct > 70){
-      twotchSay(("📝 OhISee QUIZ IS OVER! - Answer: "+emoteLog.questions[quizQuestionIndex].answer + " 👍 CORRECT (C) 👍 The class got a C! And " + "someone" + " was the first to get it right! Chat's IQ is now " + Math.floor(newiq) + "Q (+"+Math.floor(newiq-emoteLog.iq)+")."));
+      twotchSay(("📝 OhISee QUIZ IS OVER! - Answer: "+emoteLog.questions[quizQuestionIndex].answer + " 👍 CORRECT (C) 👍 The class got a C! And " + firstright + " was the first to get it right! Chat's IQ is now " + Math.floor(newiq) + "Q (+"+Math.floor(newiq-emoteLog.iq)+")."));
     }else if(percent_correct > 60){
-      twotchSay(("📝 OhISee QUIZ IS OVER! - Answer: "+emoteLog.questions[quizQuestionIndex].answer + " ➖ DEPRESSING (D) ➖ The class got a D. But " + "someone" + " was the first to get it right! Chat's IQ is now " + Math.floor(newiq) + "Q (+"+Math.floor(newiq-emoteLog.iq)+")."));
+      twotchSay(("📝 OhISee QUIZ IS OVER! - Answer: "+emoteLog.questions[quizQuestionIndex].answer + " ➖ DEPRESSING (D) ➖ The class got a D. But " + firstright + " was the first to get it right! Chat's IQ is now " + Math.floor(newiq) + "Q (+"+Math.floor(newiq-emoteLog.iq)+")."));
     }else{
-      twotchSay(("📝 OhISee QUIZ IS OVER! - Answer: "+emoteLog.questions[quizQuestionIndex].answer + " ❌ FAILURE (F) ❌ The class failed. But " + "someone" + " was the first to get it right! Chat's IQ is now " + Math.floor(newiq) + "Q ("+Math.floor(newiq-emoteLog.iq)+")."));
+      twotchSay(("📝 OhISee QUIZ IS OVER! - Answer: "+emoteLog.questions[quizQuestionIndex].answer + " ❌ FAILURE (F) ❌ The class failed. But " + firstright + " was the first to get it right! Chat's IQ is now " + Math.floor(newiq) + "Q ("+Math.floor(newiq-emoteLog.iq)+")."));
     }
 
     emoteLog.iq = newiq;
