@@ -36,7 +36,7 @@ var Filter = require('bad-words'),
     placeHolder: '*'
   });
 var ordinal = require('ordinal');
-filter.removeWords("shit", "hell", "heck", "damn", "ass");
+filter.removeWords("shit", "hell", "heck", "damn", "ass", "gay", "trans");
 
 function filterString(initString){
   var finalstring = filter.clean(initString);
@@ -50,6 +50,7 @@ function filterString(initString){
 var timeout = 960000;
 var timeout2 = 19000;
 var timeoutQ = 30000;
+var timeoutBQ = 45000;
 var quizlength = 60000;
 
 
@@ -135,6 +136,8 @@ try {
 var onTimeout = false;
 var onTimeout2 = false;
 var onTimeoutQ = false;
+var onTimeoutBQ = false;
+
 onTimeout = true;
 setTimeout(timeoutReset, timeout);
 
@@ -381,12 +384,12 @@ twitch.on('message', chatter => {
     setTimeout(timeoutReset2, timeout2);
   }
 
-  //!TopNotetakers
-  if (chatter.message.split(' ')[0].localeCompare("!HonorRoll", 'en', {
+  //!NoteRoll (old)
+  if (chatter.message.split(' ')[0].localeCompare("!NoteRoll", 'en', {
       sensitivity: 'base'
     })==0 && chatter.display_name != "OhISeeBOT" && (!onTimeout2 || chatter.display_name == "itsMichal")) {
 
-      console.log("EVENT - Someone used !HonorRoll".yellow);
+      console.log("EVENT - Someone used !NoteRoll".yellow);
       var list = [];
       var averagepp = emoteLog.totalcount / emoteLog.whispers.length;
       console.log(("DEBUG - Average Note Count Per Person - " + averagepp).gray);
@@ -424,7 +427,7 @@ twitch.on('message', chatter => {
       score3 += (cnt / topamt) * 50;
 
       try {
-        twotchSay(("📝 OhISee The top 3 students are " + list[0] + " (" +emoteLog.Notetakers[list[0]].notecount+" notes, "+score1.toFixed(1)+"%), " + list[1] + " (" +emoteLog.Notetakers[list[1]].notecount+" notes, "+score2.toFixed(1)+"%), and " + list[2] + " (" +emoteLog.Notetakers[list[2]].notecount+" notes, "+score3.toFixed(1)+"%)."));
+        twotchSay(("📝 OhISee The top 3 notetakers are " + list[0] + " (" +emoteLog.Notetakers[list[0]].notecount+" notes, "+score1.toFixed(1)+"%), " + list[1] + " (" +emoteLog.Notetakers[list[1]].notecount+" notes, "+score2.toFixed(1)+"%), and " + list[2] + " (" +emoteLog.Notetakers[list[2]].notecount+" notes, "+score3.toFixed(1)+"%)."));
       } catch (e) {
         console.log(e);
       }
@@ -432,12 +435,82 @@ twitch.on('message', chatter => {
       setTimeout(timeoutReset2, timeout2);
   }
 
-  //!Grade
-  if (chatter.message.split(' ')[0].localeCompare("!Grade", 'en', {
+    //!HonorRoll (NEW)
+    if (chatter.message.split(' ')[0].localeCompare("!HonorRoll", 'en', {
       sensitivity: 'base'
     })==0 && chatter.display_name != "OhISeeBOT" && (!onTimeout2 || chatter.display_name == "itsMichal")) {
 
-    console.log("EVENT - Someone used !Grade".yellow);
+      console.log("EVENT - Someone used !HonorRoll".yellow);
+      var list = [];
+      var averagepp = emoteLog.totalcount / emoteLog.whispers.length;
+      console.log(("DEBUG - Average Note Count Per Person - " + averagepp).gray);
+      var topamt = 0;
+      for (var ntkr in emoteLog.Notetakers) {
+        if (emoteLog.Notetakers.hasOwnProperty(ntkr) 
+        && emoteLog.Notetakers[ntkr].hasOwnProperty("qcor")
+        && emoteLog.Notetakers[ntkr].hasOwnProperty("qfal")  
+        ) {
+          
+
+          var corr_count = emoteLog.Notetakers[ntkr].qcor;
+          var fal_count = emoteLog.Notetakers[ntkr].qfal;
+          var tot_count = corr_count+fal_count;
+
+          if (tot_count >= 10) {
+            list.push(ntkr);
+          }
+        }
+
+      }
+      console.log(("DEBUG - Top Grade Count - " + topamt).gray);
+      list.sort(sortPeople);
+
+      score1 = emoteLog.Notetakers[list[0]].qcor / (emoteLog.Notetakers[list[0]].qcor + emoteLog.Notetakers[list[0]].qfal);
+      score2 = emoteLog.Notetakers[list[1]].qcor / (emoteLog.Notetakers[list[1]].qcor + emoteLog.Notetakers[list[1]].qfal);
+      score3 = emoteLog.Notetakers[list[2]].qcor / (emoteLog.Notetakers[list[2]].qcor + emoteLog.Notetakers[list[2]].qfal);
+
+
+      // var cnt = emoteLog.Notetakers[list[0]].notecount;
+      // var score1 = (cnt / (averagepp)) * 50;
+      // if (score1 > 75) {
+      //   score1 = 75;
+      // }
+      // score1 += (cnt / topamt) * 50;
+
+      // cnt = emoteLog.Notetakers[list[1]].notecount;
+      // var score2 = (cnt / (averagepp)) * 50;
+      // if (score2 > 75) {
+      //   score2 = 75;
+      // }
+      // score2 += (cnt / topamt) * 50;
+
+      // cnt = emoteLog.Notetakers[list[2]].notecount;
+      // var score3 = (cnt / (averagepp)) * 50;
+      // if (score3 > 75) {
+      //   score3 = 75;
+      // }
+      // score3 += (cnt / topamt) * 50;
+
+      try {
+        twotchSay(("📝 OhISee The top 3 students are " + list[0] + " (" 
+        +(emoteLog.Notetakers[list[0]].qcor+emoteLog.Notetakers[list[0]].qfal)
+        +" quizzes, "+score1.toFixed(1)+"% pass), " + list[1] + " (" 
+        +(emoteLog.Notetakers[list[1]].qcor+emoteLog.Notetakers[list[1]].qfal)+" quizzes, "+score2.toFixed(1)
+        +"% pass), and " + list[2] + " (" 
+        +(emoteLog.Notetakers[list[2]].qcor+emoteLog.Notetakers[list[2]].qfal)+" quizzes, "+score3.toFixed(1)+"% pass)."));
+      } catch (e) {
+        console.log(e);
+      }
+      onTimeout2 = true;
+      setTimeout(timeoutReset2, timeout2);
+  }
+  
+  //!NoteCount
+  if (chatter.message.split(' ')[0].localeCompare("!NoteCount", 'en', {
+      sensitivity: 'base'
+    })==0 && chatter.display_name != "OhISeeBOT" && (!onTimeout2 || chatter.display_name == "itsMichal")) {
+
+    console.log("EVENT - Someone used !NoteCount".yellow);
 
     //Check if username specified
     if (chatter.message.split(' ').length > 1) {
@@ -475,7 +548,7 @@ twitch.on('message', chatter => {
         score += (cnt / topamt) * 50;
 
         try {
-          twotchSay(("📝 OhISee " + username + " has taken " + cnt + " notes. I think they'll get a " + score.toFixed(1) + "% on the test! That's the " + ordinal(rank) + " best score! Keep on taking notes to improve!"));
+          twotchSay(("📝 OhISee " + username + " has taken " + cnt + " notes. That's a " + score.toFixed(1) + "% note grade! It's the " + ordinal(rank) + " best score! Keep on taking notes to improve!"));
         } catch (e) {
           console.log(e);
         }
@@ -523,7 +596,7 @@ twitch.on('message', chatter => {
         score += (cnt / topamt) * 50;
 
         try {
-          twotchSay(("📝 OhISee " + username + ", you have taken " + cnt + " notes. I think you'll get a " + score.toFixed(1) + "% on the test! That's the " + ordinal(rank) + " best score! Keep on taking notes to improve!"));
+          twotchSay(("📝 OhISee " + username + ", you have taken " + cnt + " notes. That's a " + score.toFixed(1) + "% note grade! That's the " + ordinal(rank) + " best score! Keep on taking notes to improve!"));
         } catch (e) {
           console.log(e);
         }
@@ -553,6 +626,117 @@ twitch.on('message', chatter => {
     setTimeout(timeoutReset2, timeout2);
   }
 
+
+
+  //New !Grade
+  if (chatter.message.split(' ')[0].localeCompare("!Grade", 'en', {
+      sensitivity: 'base'
+    })==0 && chatter.display_name != "OhISeeBOT" && (!onTimeout2 || chatter.display_name == "itsMichal")) {
+
+    console.log("EVENT - Someone used !Grade".yellow);
+
+    //Check if username specified
+    if (chatter.message.split(' ').length > 1) {
+      //Check if username is valid
+      var username = chatter.message.split(' ')[1];
+      if (emoteLog.Notetakers.hasOwnProperty(username)) {
+        //Get top Notetakers
+        var rank = 1;
+
+        //var averagepp = emoteLog.totalcount / emoteLog.whispers.length;
+        //console.log(("DEBUG - Average Note Count Per Person - " + averagepp).gray);
+
+        var topamt = 0;
+        var cnt = emoteLog.Notetakers[username].qcor / (emoteLog.Notetakers[username].qcor+ emoteLog.Notetakers[username].qfal);
+        for (var ntkr in emoteLog.Notetakers) {
+          if (emoteLog.Notetakers.hasOwnProperty(ntkr)) {
+            var thing = emoteLog.Notetakers[ntkr];
+            //If exists qcor/qfal, better ratio, + at least 10 quizzes, derank
+            if ((thing.hasOwnProperty("qcor") && thing.hasOwnProperty("qfal")) 
+            && (thing.qcor / thing.qfal) > cnt && (thing.qcor+thing.qfal) >= 10) {
+              rank++
+            }
+          }
+        }
+        console.log(("DEBUG - Grade Rank - " + rank).gray);
+        //console.log(("DEBUG - Top Count - " + topamt).gray);
+
+        //valid
+
+
+        try {
+          if(!(thing.hasOwnProperty("qcor") && thing.hasOwnProperty("qfal"))){
+            //Not taken a quiz
+            twotchSay(("📝 OhISee " + username + " hasn't taken a single quiz yet! Take at least 10 quizzes to get your grade."));
+          }else{
+            if((thing.qcor+thing.qfal) < 10){
+              //Not enough quizzes taken
+              twotchSay(("📝 OhISee " + username + " hasn't taken enough quizzes yet! Take at least 10 quizzes to get your grade. " + (10-(thing.qcor+thing.qfal)+ " quizzes to go!")));
+            }else{
+              twotchSay(("📝 OhISee " + username + " has taken " + (emoteLog.Notetakers[username].qcor+emoteLog.Notetakers[username].qfal) + " quizzes, and passed "+ emoteLog.Notetakers[username].qcor +" of them. That's a " + cnt.toFixed(1) + "% note grade! It's the " + ordinal(rank) + " best score! Keep on taking quizzes!"));
+            }
+          }
+        } catch (e) {
+          console.log(e);
+        }
+      } else {
+        try {
+          twotchSay(("📝 OhISee " + username + " hasn't taken a single quiz yet! Take at least 10 quizzes to get your grade."));
+        } catch (e) {
+          console.log(e);
+        }
+      }
+
+    } else {
+      //Yourself
+      //Check if username is valid
+      var username = chatter.display_name;
+      if (emoteLog.Notetakers.hasOwnProperty(username)) {
+        //Get top Notetakers
+        var rank = 1;
+        var topamt = 0;
+        var cnt = emoteLog.Notetakers[username].qcor / emoteLog.Notetakers[username].qfal;
+        for (var ntkr in emoteLog.Notetakers) {
+          if (emoteLog.Notetakers.hasOwnProperty(ntkr)) {
+            var thing = emoteLog.Notetakers[ntkr];
+            //If exists qcor/qfal, better ratio, + at least 10 quizzes, derank
+            if ((thing.hasOwnProperty("qcor") && thing.hasOwnProperty("qfal")) 
+            && (thing.qcor / thing.qfal) > cnt && (thing.qcor+thing.qfal) >= 10) {
+              rank++
+            }
+          }
+        }
+        console.log(("DEBUG - Grade Rank - " + rank).gray);
+        
+
+        try {
+          if(!(thing.hasOwnProperty("qcor") && thing.hasOwnProperty("qfal"))){
+            //Not taken a quiz
+            twotchSay(("📝 OhISee " + username + " hasn't taken a single quiz yet! Take at least 10 quizzes to get your grade."));
+          }else{
+            if((thing.qcor+thing.qfal) < 10){
+              //Not enough quizzes taken
+              twotchSay(("📝 OhISee " + username + " hasn't taken enough quizzes yet! Take at least 10 quizzes to get your grade. " + (10-(thing.qcor+thing.qfal)+ " quizzes to go!")));
+            }else{
+              twotchSay(("📝 OhISee " + username + " has taken " + (emoteLog.Notetakers[username].qcor+emoteLog.Notetakers[username].qfal) + " quizzes, and passed "+ emoteLog.Notetakers[username].qcor +" of them. That's a " + cnt.toFixed(1) + "% note grade! It's the " + ordinal(rank) + " best score! Keep on taking quizzes!"));
+            }
+          }
+        } catch (e) {
+          console.log(e);
+        }
+      } else {
+        try {
+          twotchSay(("📝 OhISee " + username + " hasn't taken a single quiz yet! Take at least 10 quizzes to get your grade."));
+        } catch (e) {
+          console.log(e);
+        }
+      }
+    }
+    onTimeout2 = true;
+    setTimeout(timeoutReset2, timeout2);
+  }
+
+
   msgsp++;
 
   
@@ -560,9 +744,10 @@ twitch.on('message', chatter => {
   //QUIZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ
   if(chatter.message.localeCompare("!Quiz", 'en', {
     sensitivity: 'base'
-  })==0 && chatter.display_name != "OhISeeBOT" && (!onTimeout2)){
-    if(!onTimeoutQ){
+  })==0 && chatter.display_name != "OhISeeBOT" && (!onTimeout2 || chatter.display_name == "itsMichal")){
+    if(!onTimeoutQ && (!onTimeoutBQ || chatter.display_name != "itsMichal")){
       onTimeout2 = true;
+      onTimeoutBQ = true;
       console.log("EVENT - QUIZ STARTED".magenta);
 
      
@@ -627,8 +812,13 @@ twitch.on('message', chatter => {
       //start timer for quiz
       setTimeout(timeoutResetQ, quizlength);
     }else{
-      //Give error message
-      twotchSay(("📝 OhISee We are in the middle of a quiz!"));
+      if(onTimeoutBQ && !onTimeoutQ){
+        twotchSay(("📝 OhISee We just had a quiz! Give me some time to get the next one ready..."));
+      }else{
+        //Give error message
+        twotchSay(("📝 OhISee We are in the middle of a quiz!"));
+      }
+      
     }
   }
 
@@ -803,6 +993,7 @@ twitch.on('message', chatter => {
      quizQuestionIndex = 0;
 
     setTimeout(timeoutReset2, timeout2);
+    setTimeout(timeoutResetBQ, timeoutBQ);
   }
 
   function quizWarning(){
@@ -1059,12 +1250,23 @@ function timeoutReset2() {
 
 function timeoutResetQ() {
   onTimeoutQ = false;
+  console.log("STATUS - QUIZ DONE".green);
+  console.log(("INFO - " + msgsp + " messages processed, and " + msgss + " messages sent.").gray);
+}
+
+function timeoutResetBQ() {
+  onTimeoutBQ = false;
   console.log("STATUS - NEW QUIZ READY".green);
   console.log(("INFO - " + msgsp + " messages processed, and " + msgss + " messages sent.").gray);
 }
 
 function sortPeople(a,b){
   return emoteLog.Notetakers[b].notecount - emoteLog.Notetakers[a].notecount;
+}
+
+function sortPeopleGrade(a,b){
+  return (emoteLog.Notetakers[b].qcor/(emoteLog.Notetakers[b].qfal+ emoteLog.Notetakers[b].qcor))
+    - (emoteLog.Notetakers[b].qcor/(emoteLog.Notetakers[b].qfal+ emoteLog.Notetakers[b].qcor));
 }
 
 //Website Section
@@ -1133,3 +1335,79 @@ function twotchQueue(){
     console.log(e);
   }
 }
+
+function autoQuizzer(){
+  if(!onTimeoutQ){
+    onTimeout2 = true;
+    console.log("EVENT - QUIZ STARTED".magenta);
+
+   
+
+    //Start Quiz!
+    setTimeout(quizEnd, quizlength);
+    setTimeout(quizWarning, quizlength-10000);
+
+    //Draw 4 Random Questions, pick 1 randomly, keep answers from other 4.
+    var qanswers = [];
+
+    //Pick initial question
+    var randumbindex = Math.floor(Math.random() * emoteLog.questions.length);
+    var quizQuestionJSON = emoteLog.questions[randumbindex];
+    var qquestion = emoteLog.questions[randumbindex].question;
+    quizQuestionIndex = randumbindex;
+
+    console.log(("QUESTION - "+qquestion).magenta);
+    console.log(("ANSWER   - "+quizQuestionJSON.answer).magenta);
+
+
+    //Pick 3 random answers
+    while(true){
+      //Limit to 3
+      if(qanswers.length == 2){
+        break;
+      }
+
+      var randumbindex2 = Math.floor(Math.random() * emoteLog.questions.length);
+      //Remove closely related answers, if possible.
+      if(
+        !(emoteLog.questions[randumbindex2].answer.localeCompare(quizQuestionJSON.answer, 'en', {sensitivity: 'base'}) == 0) 
+        && randumbindex2 != randumbindex
+        ){
+          qanswers.push(emoteLog.questions[randumbindex2].answer);
+        }
+
+    }
+
+    //Chose correct answer slot.
+    rightanswer = Math.floor(Math.random() * 3);
+
+    //Put correct answer in appropriate spot
+    qanswers.splice(rightanswer,0,quizQuestionJSON.answer);
+
+    //Update index with usage
+    emoteLog.questions[quizQuestionIndex].usage += 1;
+
+    //Send message to chat
+    twotchSay((`📝 OhISee 💭 POP QUIZ ALERT! 🚨 Type " OhISee [Number] " to participate!`));
+    try{
+      setTimeout(()=>{twotchSay(`OhISee QUESTION: ` + qquestion + ` -|- ANSWERS: 1) ` + qanswers[0] + `2) `+ qanswers[1]+ `3) `+qanswers[2])}, 3000);
+    }catch(e){
+      setTimeout(()=>{twotchSay(`OhISee QUESTION: ` + qquestion + ` -|- ANSWERS: 1) ` + qanswers[0] + `2) `+ qanswers[1]+ `3) `+qanswers[2])}, 7000);
+    }
+    
+    //setTimeout(()=>{twotchSay(`)}, 2000);
+    //+`4)`+qanswers[3]));
+    
+    //Set timeout
+    onTimeoutQ = true;
+    //start timer for quiz
+    setTimeout(timeoutResetQ, quizlength);
+
+    initPopQuiz = (Math.floor(60000*(Math.random()*5)) + 360000);
+    console.log("PQUIZ - Set at " + initPopQuiz/1000 + " seconds.");
+    setTimeout(autoQuizzer, initPopQuiz);
+  }
+}
+var initPopQuiz = (Math.floor(60000*(Math.random()*10)) + 60000);
+console.log("PQUIZ - Set at " + initPopQuiz/1000 + " seconds.");
+setTimeout(autoQuizzer, initPopQuiz);
