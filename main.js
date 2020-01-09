@@ -765,6 +765,7 @@ twitch.on('message', chatter => {
 
       //Pick initial question
       var randumbindex = Math.floor(Math.random() * emoteLog.questions.length);
+      console.log("DEBUG - "+ emoteLog.questions.length + " - " +randumbindex);
       var quizQuestionJSON = emoteLog.questions[randumbindex];
       var qquestion = emoteLog.questions[randumbindex].question;
       quizQuestionIndex = randumbindex;
