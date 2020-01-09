@@ -1373,7 +1373,7 @@ function quizEnd(){
   //Announce results, start timer until next quiz can be given.
   var percent_correct = Math.floor((num_correct / (choice1cnt+choice2cnt+choice3cnt+choice4cnt))*10000)/100;
 
-  var newiq = ((1+((percent_correct-60)/200))*150)+emoteLog.iq;
+  var newiq = ((1+((percent_correct-60)/200))*75)+emoteLog.iq;
 
   if(firstright == ""){
     firstright = "no one"
