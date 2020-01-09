@@ -463,11 +463,11 @@ twitch.on('message', chatter => {
 
       }
       console.log(("DEBUG - Top Grade Count - " + topamt).gray);
-      list.sort(sortPeople);
-
-      score1 = emoteLog.Notetakers[list[0]].qcor / (emoteLog.Notetakers[list[0]].qcor + emoteLog.Notetakers[list[0]].qfal);
-      score2 = emoteLog.Notetakers[list[1]].qcor / (emoteLog.Notetakers[list[1]].qcor + emoteLog.Notetakers[list[1]].qfal);
-      score3 = emoteLog.Notetakers[list[2]].qcor / (emoteLog.Notetakers[list[2]].qcor + emoteLog.Notetakers[list[2]].qfal);
+      list.sort(sortPeopleGrade);
+      //TODO ACCOUNT FOR less
+      score1 = (emoteLog.Notetakers[list[0]].qcor / (emoteLog.Notetakers[list[0]].qcor + emoteLog.Notetakers[list[0]].qfal))*100;
+      score2 = (emoteLog.Notetakers[list[1]].qcor / (emoteLog.Notetakers[list[1]].qcor + emoteLog.Notetakers[list[1]].qfal))*100;
+      score3 = (emoteLog.Notetakers[list[2]].qcor / (emoteLog.Notetakers[list[2]].qcor + emoteLog.Notetakers[list[2]].qfal))*100;
 
 
       // var cnt = emoteLog.Notetakers[list[0]].notecount;
@@ -635,6 +635,8 @@ twitch.on('message', chatter => {
 
     console.log("EVENT - Someone used !Grade".yellow);
 
+    
+
     //Check if username specified
     if (chatter.message.split(' ').length > 1) {
       //Check if username is valid
@@ -647,7 +649,7 @@ twitch.on('message', chatter => {
         //console.log(("DEBUG - Average Note Count Per Person - " + averagepp).gray);
 
         var topamt = 0;
-        var cnt = emoteLog.Notetakers[username].qcor / (emoteLog.Notetakers[username].qcor+ emoteLog.Notetakers[username].qfal);
+        var cnt = emoteLog.Notetakers[username].qcor / (emoteLog.Notetakers[username].qcor+ emoteLog.Notetakers[username].qfal)*100;
         for (var ntkr in emoteLog.Notetakers) {
           if (emoteLog.Notetakers.hasOwnProperty(ntkr)) {
             var thing = emoteLog.Notetakers[ntkr];
@@ -665,13 +667,14 @@ twitch.on('message', chatter => {
 
 
         try {
-          if(!(thing.hasOwnProperty("qcor") && thing.hasOwnProperty("qfal"))){
+          if(!(emoteLog.Notetakers[username].hasOwnProperty("qcor") && emoteLog.Notetakers[username].hasOwnProperty("qfal"))){
             //Not taken a quiz
             twotchSay(("📝 OhISee " + username + " hasn't taken a single quiz yet! Take at least 10 quizzes to get your grade."));
           }else{
-            if((thing.qcor+thing.qfal) < 10){
+            console.log("DEBUG - " + emoteLog.Notetakers[username].qcor + " and " + emoteLog.Notetakers[username].qfal);
+            if((emoteLog.Notetakers[username].qcor+emoteLog.Notetakers[username].qfal) < 10){
               //Not enough quizzes taken
-              twotchSay(("📝 OhISee " + username + " hasn't taken enough quizzes yet! Take at least 10 quizzes to get your grade. " + (10-(thing.qcor+thing.qfal)+ " quizzes to go!")));
+              twotchSay(("📝 OhISee " + username + " hasn't taken enough quizzes yet! Take at least 10 quizzes to get your grade. " + (10-(emoteLog.Notetakers[username].qcor+emoteLog.Notetakers[username].qfal)+ " quizzes to go!")));
             }else{
               twotchSay(("📝 OhISee " + username + " has taken " + (emoteLog.Notetakers[username].qcor+emoteLog.Notetakers[username].qfal) + " quizzes, and passed "+ emoteLog.Notetakers[username].qcor +" of them. That's a " + cnt.toFixed(1) + "% note grade! It's the " + ordinal(rank) + " best score! Keep on taking quizzes!"));
             }
@@ -695,13 +698,14 @@ twitch.on('message', chatter => {
         //Get top Notetakers
         var rank = 1;
         var topamt = 0;
-        var cnt = emoteLog.Notetakers[username].qcor / emoteLog.Notetakers[username].qfal;
+        var cnt = emoteLog.Notetakers[username].qcor / (emoteLog.Notetakers[username].qfal+emoteLog.Notetakers[username].qcor)*100;
         for (var ntkr in emoteLog.Notetakers) {
           if (emoteLog.Notetakers.hasOwnProperty(ntkr)) {
             var thing = emoteLog.Notetakers[ntkr];
             //If exists qcor/qfal, better ratio, + at least 10 quizzes, derank
             if ((thing.hasOwnProperty("qcor") && thing.hasOwnProperty("qfal")) 
-            && (thing.qcor / thing.qfal) > cnt && (thing.qcor+thing.qfal) >= 10) {
+            && (thing.qcor / (thing.qcor +thing.qfal)) > cnt 
+            && (thing.qcor+thing.qfal) >= 10) {
               rank++
             }
           }
@@ -710,13 +714,13 @@ twitch.on('message', chatter => {
         
 
         try {
-          if(!(thing.hasOwnProperty("qcor") && thing.hasOwnProperty("qfal"))){
+          if(!(emoteLog.Notetakers[username].hasOwnProperty("qcor") && emoteLog.Notetakers[username].hasOwnProperty("qfal"))){
             //Not taken a quiz
             twotchSay(("📝 OhISee " + username + " hasn't taken a single quiz yet! Take at least 10 quizzes to get your grade."));
           }else{
-            if((thing.qcor+thing.qfal) < 10){
+            if((emoteLog.Notetakers[username].qcor+emoteLog.Notetakers[username].qfal) < 10){
               //Not enough quizzes taken
-              twotchSay(("📝 OhISee " + username + " hasn't taken enough quizzes yet! Take at least 10 quizzes to get your grade. " + (10-(thing.qcor+thing.qfal)+ " quizzes to go!")));
+              twotchSay(("📝 OhISee " + username + " hasn't taken enough quizzes yet! Take at least 10 quizzes to get your grade. " + (10-(emoteLog.Notetakers[username].qcor+emoteLog.Notetakers[username].qfal)+ " quizzes to go!")));
             }else{
               twotchSay(("📝 OhISee " + username + " has taken " + (emoteLog.Notetakers[username].qcor+emoteLog.Notetakers[username].qfal) + " quizzes, and passed "+ emoteLog.Notetakers[username].qcor +" of them. That's a " + cnt.toFixed(1) + "% note grade! It's the " + ordinal(rank) + " best score! Keep on taking quizzes!"));
             }
@@ -1266,7 +1270,7 @@ function sortPeople(a,b){
 
 function sortPeopleGrade(a,b){
   return (emoteLog.Notetakers[b].qcor/(emoteLog.Notetakers[b].qfal+ emoteLog.Notetakers[b].qcor))
-    - (emoteLog.Notetakers[b].qcor/(emoteLog.Notetakers[b].qfal+ emoteLog.Notetakers[b].qcor));
+    - (emoteLog.Notetakers[a].qcor/(emoteLog.Notetakers[a].qfal+ emoteLog.Notetakers[a].qcor));
 }
 
 //Website Section
