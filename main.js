@@ -1344,7 +1344,7 @@ function autoQuizzer(){
     //start timer for quiz
     setTimeout(timeoutResetQ, quizlength);
 
-    initPopQuiz = (Math.floor(60000*(Math.random()*5)) + 360000);
+    initPopQuiz = (Math.floor(60000*(Math.random()*10)) + 360000);
     console.log("PQUIZ - Set at " + initPopQuiz/1000 + " seconds.");
     setTimeout(autoQuizzer, initPopQuiz);
   }
