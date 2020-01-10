@@ -1374,7 +1374,9 @@ function quizEnd(){
   //Announce results, start timer until next quiz can be given.
   var percent_correct = Math.floor((num_correct / (choice1cnt+choice2cnt+choice3cnt+choice4cnt))*10000)/100;
 
-  var newiq = ((1+((percent_correct-60))))+emoteLog.iq;
+  var newiq = ((1+((Math.floor(percent_correct)-60)/400)))*emoteLog.iq;
+
+  console.log("DEBUG NAN - " + newiq + " - " + percent_correct + ".");
 
   if(firstright == ""){
     firstright = "no one"
@@ -1395,9 +1397,9 @@ function quizEnd(){
   }else{
     twotchSay(("📝 OhISee QUIZ IS OVER! - Answer: "+emoteLog.questions[quizQuestionIndex].answer + " ❌ FAILURE (F) ❌ The class failed. But " + firstright + " was the first to get it right! Chat's IQ is now " + Math.floor(newiq) + "Q ("+Math.floor(newiq-emoteLog.iq)+")."));
   }
-
-  emoteLog.iq = newiq;
-
+  if(!newiq.isNaN()){
+    emoteLog.iq = newiq;
+  }
    //Reset quiz vars
    choice1cnt = 0;
    choice2cnt = 0;
