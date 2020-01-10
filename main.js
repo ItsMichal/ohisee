@@ -97,7 +97,7 @@ try {
 
   //Get the JSON from Myjson because Heroku deletes locally.
   request.get(
-    {url:"https://api.jsonbin.io/b/5e16f651b236b871b35eb7bc",
+    {url:"https://api.jsonbin.io/b/5e17d470b236b871b35f1f60",
     headers:{'secret-key':'***REMOVED***'}
   }, function(err,resp,body){
 
@@ -1159,7 +1159,7 @@ setInterval(jsonStoreBackup,120000);
 function jsonStoreBackup(){
   console.log("BACKUP - BACKED UP TO REMOTE".blue);
   request({
-    url: "https://api.jsonbin.io/b/5e16f651b236b871b35eb7bc",
+    url: "https://api.jsonbin.io/b/5e17d470b236b871b35f1f60",
     method: 'PUT',
     json: emoteLog,
     headers:{'secret-key':'***REMOVED***', 'versioning':'false'}
