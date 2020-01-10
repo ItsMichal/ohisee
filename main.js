@@ -1397,7 +1397,7 @@ function quizEnd(){
   }else{
     twotchSay(("📝 OhISee QUIZ IS OVER! - Answer: "+emoteLog.questions[quizQuestionIndex].answer + " ❌ FAILURE (F) ❌ The class failed. But " + firstright + " was the first to get it right! Chat's IQ is now " + Math.floor(newiq) + "Q ("+Math.floor(newiq-emoteLog.iq)+")."));
   }
-  if(!newiq.isNaN()){
+  if(!isNaN(newiq)){
     emoteLog.iq = newiq;
   }
    //Reset quiz vars
