@@ -1,7 +1,7 @@
 var fs = require('fs');
 var http = require('http');
 console.log("starting");
-setInterval(dl, 300000);
+setInterval(dl, 600000);
 dl();
 function dl(){
   console.log("backing up...");

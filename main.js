@@ -75,7 +75,7 @@ var emoteLog = {
 
 try {
   
-  //emoteLog = JSON.parse(fs.readFileSync('ohIsee.json'));
+  emoteLog = JSON.parse(fs.readFileSync('ohIsee.json'));
   /*request({
     url: "https://www.jsonstore.io/***REMOVED***",
     method: 'PUT',
@@ -96,35 +96,35 @@ try {
   //---End of Legacy---
 
   //Get the JSON from Myjson because Heroku deletes locally.
-  request.get(
-    {url:"https://api.jsonbin.io/b/5e17d470b236b871b35f1f60",
-    headers:{'secret-key':'***REMOVED***'}
-  }, function(err,resp,body){
+  // request.get(
+  //   {url:"https://api.jsonbin.io/b/5e17d470b236b871b35f1f60",
+  //   headers:{'secret-key':'***REMOVED***'}
+  // }, function(err,resp,body){
 
-    //Catch errors
-    if (err)
-      console.log(("ERROR - Something went wrong with getting file from myjson!").red);
+  //   //Catch errors
+  //   if (err)
+  //     console.log(("ERROR - Something went wrong with getting file from myjson!").red);
 
-    //Get JSON and Parse
-    console.log("STATUS - Received JSON file from myjson...".green);
+  //   //Get JSON and Parse
+  //   console.log("STATUS - Received JSON file from myjson...".green);
 
-    //console.log(body);
+  //   //console.log(body);
 
-    emoteLog = JSON.parse(body);
+  //   emoteLog = JSON.parse(body);
 
-    //console.log(emoteLog);
+  //   //console.log(emoteLog);
 
-    //Update the game's name
-    updateGameName();
+     //Update the game's name
+     updateGameName();
 
-    //Write to the local file.
-    fs.writeFile('ohIsee.json', JSON.stringify(emoteLog), 'utf8', err => {
-      if (err) throw err;
-      console.log("STATUS - Local JSON file updated!".blue);
-      console.log(("INFO - " + emoteLog.totalcount + " entries in JSON.").gray);
-    });
+  //   //Write to the local file.
+  //   fs.writeFile('ohIsee.json', JSON.stringify(emoteLog), 'utf8', err => {
+  //     if (err) throw err;
+  //     console.log("STATUS - Local JSON file updated!".blue);
+  //     console.log(("INFO - " + emoteLog.totalcount + " entries in JSON.").gray);
+  //   });
 
-  });
+  // });
 
 } catch (e) {
   console.log(e);
