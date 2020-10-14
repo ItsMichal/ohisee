@@ -87,7 +87,7 @@ try {
   //Get the JSON from Myjson because Heroku deletes locally.
   // request.get(
   //   {url:"https://api.jsonbin.io/b/5e17d470b236b871b35f1f60",
-  //   headers:{'secret-key':'***REMOVED***'}
+  //   headers:{'secret-key':''}
   // }, function(err,resp,body){
 
   //   //Catch errors

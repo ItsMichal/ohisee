@@ -1,6 +1,6 @@
 var tapi = require('twitch-api-v5');
 //22510310
-tapi.clientID = '***REMOVED***';
+tapi.clientID = process.env.TAPI_CLIENTID;
 var TwitchBot = require("twitch-bot");
 var fs = require('fs');
 var colors = require('colors');
