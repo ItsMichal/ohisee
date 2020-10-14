@@ -6,6 +6,8 @@ A [Twitch.tv](https://www.twitch.tv/) Chatbot run during [Games Done Quick](http
 
 It last ran for [AGDQ 2020](https://gamesdonequick.com/tracker/event/agdq2020), on [Trihex's "Poverty Chat"](https://www.twitch.tv/trihex) since the official Games Done Quick channel is subscriber mode only.
 
+You may or may not view it at [ohisee.herokuapp.com](https://ohisee.herokuapp.com/). It's currently not maintained, but as of this commit, it is running. Note that it is on a free heroku dyno, so it may take a bit to spin up if it is sleeping.
+
 ## Disclaimer for Employers
 
 Please take the code written here not as an example of my ability to write code, but perhaps to make things work. Most of this code is years old, and I've gotten a lot better at writing in Node.js since. I would definitely use a proper database solution and better templating, scoring, and parsing if I were to re-write this. Additionally, this code is very unclean, and filled with terrible naming conventions and organization. It was never meant to be seen by another developer, and [I can definitely write better code](https://github.com/ItsMichal/CSCI-BShip) for you.
