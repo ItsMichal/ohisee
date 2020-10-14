@@ -11,13 +11,15 @@ const parser = new EmoteParser(fetcher, {
 var gamesarray = [];
 var json = JSON.parse(fs.readFileSync('ohIsee.json'));
 //fetcher.fetchTwitchEmotes().then(()=>{
-    for(var msgid in json.OhISee){
+    for(var msgid in json.Notetakers){
         var subjson = json.OhISee[msgid];
     
         var msg = subjson.text;
         
+
+
         try{
-            if(nlp(msg).sentences().length > 0 && nlp(msg).sentences().isQuestion().out('text').length > 0 
+            if(false && nlp(msg).sentences().length > 0 && nlp(msg).sentences().isQuestion().out('text').length > 0 
             && nlp(msg).sentences().isStatement().out('text').length > 0
             && nlp(msg).sentences().isQuestion().out('text') +" "+ nlp(msg).sentences().isStatement().out('text') + " " == msg && false
             ){
@@ -36,7 +38,7 @@ var json = JSON.parse(fs.readFileSync('ohIsee.json'));
                 
             }
 
-            if(nlp(msg).sentences().length > 0
+            if(false && nlp(msg).sentences().length > 0 
             ){
                 
 
