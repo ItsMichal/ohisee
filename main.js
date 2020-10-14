@@ -29,14 +29,14 @@ var request = require('request');
 var sanitizeHtml = require('sanitize-html');
 var tapi = require('twitch-api-v5');
 
-tapi.clientID = '***REMOVED***'; //TODO: Remove?
+tapi.clientID = process.env.TAPI_CLIENTID 
 
 var Filter = require('bad-words'),
   filter = new Filter({
     placeHolder: '*'
   });
 var ordinal = require('ordinal');
-filter.removeWords("shit", "hell", "heck", "damn", "ass", "gay", "trans");
+filter.removeWords("shit", "hell", "heck", "damn", "ass", "gay", "trans"); //These words can be abused unfortunately :(
 
 function filterString(initString){
   var finalstring = filter.clean(initString);
@@ -57,7 +57,7 @@ var quizlength = 60000;
 //Twitch Section
 var twitch = new TwitchBot({
   username: 'ohiseebot',
-  oauth: '***REMOVED***', //TODO: Switch to env var
+  oauth: process.env.TWITCH_OAUTH, 
   channels: [process.env.CHANNEL]
 });
 
