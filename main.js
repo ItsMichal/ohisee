@@ -1151,7 +1151,7 @@ function jsonStoreBackup(){
     url: "https://api.jsonbin.io/b/5e17d470b236b871b35f1f60",
     method: 'PUT',
     json: emoteLog,
-    headers:{'secret-key':'***REMOVED***', 'versioning':'false'}
+    headers:{'secret-key':process.env.JSONBIN_SECRET, 'versioning':'false'}
   }, function(err, resp, body) {
     //console.log(body);
     if (err) {
