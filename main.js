@@ -76,17 +76,6 @@ var emoteLog = {
 try {
   
   emoteLog = JSON.parse(fs.readFileSync('ohIsee.json'));
-  /*request({
-    url: "https://www.jsonstore.io/***REMOVED***",
-    method: 'PUT',
-    json: emoteLog
-  }, function(err, resp, body) {
-    console.log(body);
-    if (err) {
-      console.log("ERROR - Problem logging to myjson!".red);
-      console.log(("DETAILS - " + err + " / " + resp + " / " + body).grey);
-    }
-  });*/
   
   //Uncomment to use file
   //Historical Bins---
