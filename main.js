@@ -154,7 +154,7 @@ setInterval(updateGameName, 60000); //TODO: Make this a config setting
 //Checks the official GamesDoneQuick channel for the game name.
 function updateGameName(){
   //Client ID used with twitch API
-  tapi.clientID = '***REMOVED***';
+  tapi.clientID = process.env.TAPI_CLIENTID;
 
   //Get data on twitch.tv/GamesDoneQuick
   tapi.channels.channelByID({channelID:22510310}, (err, resp)=>{
