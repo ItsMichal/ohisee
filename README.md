@@ -13,7 +13,7 @@ Please take the code written here not as an example of my ability to write code,
 
 ## Features
 
-- Parse through chat and store every "note" (denoted by starting the message with "📝 OhISee", with the latter turning into a [FrankerFaceZ Emoji](https://www.frankerfacez.com/emoticon/230001-OhISee)
+- Parse through chat and store every "note" (denoted by starting the message with "📝 ![OhISee](https://cdn.frankerfacez.com/emoticon/230001/1)", with the latter emoji being the [FrankerFaceZ Emoji "OhISee"](https://www.frankerfacez.com/emoticon/230001-OhISee) 
 - Parse commands in chat such as
   - !noterchannel - switches the channel the bot is in
   - !RandomNote #(1-5) - posts a # number of random notes in the chat
